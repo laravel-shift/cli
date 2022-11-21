@@ -18,7 +18,10 @@
     "require": {
         "php": "^8.0",
         "laravel-zero/framework": "^9.2",
-        "nunomaduro/termwind": "^1.14"
+        "laravel/pint": "^1.2",
+        "nikic/php-parser": "^4.15",
+        "nunomaduro/termwind": "^1.14",
+        "symfony/finder": "^6.1"
     },
     "require-dev": {
         "mockery/mockery": "^1.4.4",
