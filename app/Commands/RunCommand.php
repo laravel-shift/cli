@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Support\TaskManifest;
 use InvalidArgumentException;
 use LaravelZero\Framework\Commands\Command;
 
@@ -10,6 +11,15 @@ class RunCommand extends Command
     protected $signature = 'run {task* : The name of the automated task} {--dirty?}';
 
     protected $description = 'Run one or more automated tasks';
+
+    private TaskManifest $taskManifest;
+
+    public function __construct(TaskManifest $taskManifest)
+    {
+        parent::__construct();
+
+        $this->taskManifest = $taskManifest;
+    }
 
     public function handle()
     {
@@ -27,12 +37,7 @@ class RunCommand extends Command
 
     private function taskRegistry(string $task): string
     {
-        $tasks = [
-            'check-lint' => \App\Tasks\CheckLint::class,
-            'debug-calls' => \App\Tasks\DebugCalls::class,
-            'format-code' => \App\Tasks\FormatCode::class,
-            // ...
-        ];
+        $tasks = $this->taskManifest->list();
 
         if (! isset($tasks[$task])) {
             throw new InvalidArgumentException('Task not registered: '.$task);
