@@ -55,6 +55,7 @@ class TaskManifest
             'check-lint' => \App\Tasks\CheckLint::class,
             'debug-calls' => \App\Tasks\DebugCalls::class,
             'format-code' => \App\Tasks\FormatCode::class,
+            'order-model' => \App\Tasks\OrderModel::class,
         ];
     }
 
