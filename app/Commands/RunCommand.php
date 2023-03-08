@@ -9,7 +9,7 @@ use LaravelZero\Framework\Commands\Command;
 
 class RunCommand extends Command
 {
-    protected $signature = 'run {task* : The name of the automated task} {--dirty?} {path* : The paths to automate}';
+    protected $signature = 'run {task* : The name of the automated task} {--dirty} {--path=* : The paths to scan}';
 
     protected $description = 'Run one or more automated tasks';
 
@@ -40,12 +40,12 @@ class RunCommand extends Command
     {
         $task = new $name;
 
-        if (trait_uses_recursive(FindsFiles::class)) {
-            if ($this->hasArgument('path')) {
-                $task->setFiles($this->argument('path'));
+        if (in_array(FindsFiles::class, class_uses_recursive($task))) {
+            if ($this->option('path')) {
+                $task->setFiles($this->option('path'));
             }
 
-            if ($this->hasOption('dirty')) {
+            if ($this->option('dirty')) {
                 $task->setDirty(true);
             }
         }
