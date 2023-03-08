@@ -28,7 +28,7 @@ trait FindsFiles
             ->exclude('vendor')
             ->name('*.php');
 
-        return array_map(fn ($file) => $file->getRelativePathname(), iterator_to_array($finder, false));
+        return array_map(fn ($file) => $file->getRealPath(), iterator_to_array($finder, false));
     }
 
     protected function findDirtyFiles(): array
