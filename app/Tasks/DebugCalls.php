@@ -2,10 +2,12 @@
 
 namespace App\Tasks;
 
-use Symfony\Component\Finder\Finder;
+use App\Traits\FindsFiles;
 
 class DebugCalls
 {
+    use FindsFiles;
+
     public function perform()
     {
         $files = $this->findFiles();
@@ -55,16 +57,5 @@ class DebugCalls
             echo '  - Line ', $call['line']['start'], ': contains call to `', $call['function'], '`', PHP_EOL;
         }
         echo PHP_EOL;
-    }
-
-    private function findFiles()
-    {
-        $finder = new Finder();
-        $finder->files()
-            ->in(getcwd())
-            ->exclude('vendor')
-            ->name('*.php');
-
-        return array_map(fn ($file) => $file->getRelativePathname(), iterator_to_array($finder, false));
     }
 }

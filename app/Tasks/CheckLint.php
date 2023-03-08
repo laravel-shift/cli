@@ -2,10 +2,12 @@
 
 namespace App\Tasks;
 
-use Symfony\Component\Finder\Finder;
+use App\Traits\FindsFiles;
 
 class CheckLint
 {
+    use FindsFiles;
+
     public function perform()
     {
         $files = $this->findFiles();
@@ -43,16 +45,5 @@ class CheckLint
         echo '  - Line ', $line, ': ', $error;
         echo PHP_EOL;
         echo PHP_EOL;
-    }
-
-    private function findFiles()
-    {
-        $finder = new Finder();
-        $finder->files()
-            ->in(getcwd())
-            ->exclude('vendor')
-            ->name('*.php');
-
-        return array_map(fn ($file) => $file->getRelativePathname(), iterator_to_array($finder, false));
     }
 }

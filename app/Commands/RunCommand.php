@@ -3,12 +3,13 @@
 namespace App\Commands;
 
 use App\Support\TaskManifest;
+use App\Traits\FindsFiles;
 use InvalidArgumentException;
 use LaravelZero\Framework\Commands\Command;
 
 class RunCommand extends Command
 {
-    protected $signature = 'run {task* : The name of the automated task} {--dirty?}';
+    protected $signature = 'run {task* : The name of the automated task} {--dirty?} {path* : The paths to automate}';
 
     protected $description = 'Run one or more automated tasks';
 
@@ -24,7 +25,7 @@ class RunCommand extends Command
     public function handle()
     {
         foreach ($this->argument('task') as $task) {
-            $result = (new ($this->taskRegistry($task)))->perform();
+            $result = ($this->createTask($this->taskRegistry($task)))->perform();
             if ($result !== 0) {
                 $this->error('Failed to run task: '.$task);
 
@@ -33,6 +34,23 @@ class RunCommand extends Command
         }
 
         return 0;
+    }
+
+    private function createTask(string $name): object
+    {
+        $task = new $name;
+
+        if (trait_uses_recursive(FindsFiles::class)) {
+            if ($this->hasArgument('path')) {
+                $task->setFiles($this->argument('path'));
+            }
+
+            if ($this->hasOption('dirty')) {
+                $task->setDirty(true);
+            }
+        }
+
+        return $task;
     }
 
     private function taskRegistry(string $task): string

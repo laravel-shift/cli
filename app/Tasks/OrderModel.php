@@ -2,10 +2,12 @@
 
 namespace App\Tasks;
 
-use Symfony\Component\Finder\Finder;
+use App\Traits\FindsFiles;
 
 class OrderModel
 {
+    use FindsFiles;
+
     protected const METHOD_ORDER = [
         'constructor',
         'booting',
@@ -77,16 +79,6 @@ class OrderModel
         $start = $definition['comment'] ? $definition['comment']['line']['start'] : $definition['line']['start'];
 
         return implode(array_slice($lines, $start - 1, $definition['line']['end'] - $start + 1));
-    }
-
-    private function findFiles()
-    {
-        $finder = new Finder();
-        $finder->files()
-            ->in(getcwd().'/app/Models')
-            ->name('*.php');
-
-        return array_map(fn ($file) => $file->getRelativePathname(), iterator_to_array($finder, false));
     }
 
     private function methodType(array $method, string $block): string
@@ -178,5 +170,10 @@ class OrderModel
         );
 
         return $methods;
+    }
+
+    protected function subPath(): string
+    {
+        return 'app/Models';
     }
 }
