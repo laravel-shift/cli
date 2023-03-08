@@ -135,6 +135,10 @@ class OrderModel
 
     private function minStartLine(array $definitions): int
     {
+        if (empty($definitions)) {
+            return PHP_INT_MAX;
+        }
+
         return min(array_map(
             fn ($definition) => $definition['comment'] ? $definition['comment']['line']['start'] : $definition['line']['start'],
             $definitions
@@ -143,6 +147,10 @@ class OrderModel
 
     private function maxStartLine(array $definitions): int
     {
+        if (empty($definitions)) {
+            return 0;
+        }
+
         return max(array_map(
             fn ($definition) => $definition['line']['end'],
             $definitions
