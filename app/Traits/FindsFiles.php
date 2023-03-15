@@ -14,7 +14,7 @@ trait FindsFiles
 
     protected function findFiles()
     {
-        if (!empty($this->files)) {
+        if (! empty($this->files)) {
             return $this->files;
         }
 

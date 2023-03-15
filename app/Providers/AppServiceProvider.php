@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(TaskManifest::class, function () {
-            return new TaskManifest(Env::get('COMPOSER_VENDOR_DIR') ?: getcwd().'/vendor');
+            return new TaskManifest(Env::get('COMPOSER_VENDOR_DIR') ?: getcwd() . '/vendor');
         });
     }
 }

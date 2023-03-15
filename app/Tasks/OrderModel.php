@@ -66,9 +66,9 @@ class OrderModel
     {
         return array_map(
             function ($method) use ($lines) {
-               $method['type'] = $this->methodType($method, $this->extractDefinition($method, $lines));
+                $method['type'] = $this->methodType($method, $this->extractDefinition($method, $lines));
 
-               return $method;
+                return $method;
             },
             $methods
         );

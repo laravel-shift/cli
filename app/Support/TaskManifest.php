@@ -12,7 +12,7 @@ class TaskManifest
 
     public function __construct(string $vendorPath)
     {
-        $this->manifestPath = $vendorPath.'/shift-tasks.php';
+        $this->manifestPath = $vendorPath . '/shift-tasks.php';
         $this->vendorPath = $vendorPath;
     }
 
@@ -34,7 +34,7 @@ class TaskManifest
     {
         $packages = [];
 
-        if (file_exists($path = $this->vendorPath.'/composer/installed.json')) {
+        if (file_exists($path = $this->vendorPath . '/composer/installed.json')) {
             $installed = json_decode(file_get_contents($path), true);
 
             $packages = $installed['packages'] ?? $installed;
@@ -66,7 +66,7 @@ class TaskManifest
         }
 
         file_put_contents(
-            $this->manifestPath, '<?php return '.var_export($manifest, true).';'
+            $this->manifestPath, '<?php return ' . var_export($manifest, true) . ';'
         );
     }
 }

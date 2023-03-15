@@ -19,7 +19,7 @@ class CheckLint
         foreach ($files as $file) {
             $output = [];
             $exit_code = 0;
-            exec('php -l '.$file.' 2>&1', $output, $exit_code);
+            exec('php -l ' . $file . ' 2>&1', $output, $exit_code);
 
             if ($exit_code !== 0) {
                 [$line, $error] = $this->parseError($output);

@@ -27,7 +27,7 @@ class RunCommand extends Command
         foreach ($this->argument('task') as $task) {
             $result = ($this->createTask($this->taskRegistry($task)))->perform();
             if ($result !== 0) {
-                $this->error('Failed to run task: '.$task);
+                $this->error('Failed to run task: ' . $task);
 
                 return $result;
             }
@@ -58,7 +58,7 @@ class RunCommand extends Command
         $tasks = $this->taskManifest->list();
 
         if (! isset($tasks[$task])) {
-            throw new InvalidArgumentException('Task not registered: '.$task);
+            throw new InvalidArgumentException('Task not registered: ' . $task);
         }
 
         return $tasks[$task];
