@@ -13,15 +13,6 @@ class RunCommand extends Command
 
     protected $description = 'Run one or more automated tasks';
 
-    private TaskManifest $taskManifest;
-
-    public function __construct(TaskManifest $taskManifest)
-    {
-        parent::__construct();
-
-        $this->taskManifest = $taskManifest;
-    }
-
     public function handle()
     {
         foreach ($this->argument('task') as $task) {
@@ -55,7 +46,7 @@ class RunCommand extends Command
 
     private function taskRegistry(string $task): string
     {
-        $tasks = $this->taskManifest->list();
+        $tasks = resolve(TaskManifest::class)->list();
 
         if (! isset($tasks[$task])) {
             throw new InvalidArgumentException('Task not registered: ' . $task);
