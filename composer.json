@@ -36,5 +36,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["shift"]
+    "bin": ["shift-cli"]
 }
