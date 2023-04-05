@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "laravel-zero/framework": "^9.2",
+        "laravel-zero/framework": "^10.0",
         "nikic/php-parser": "^4.15",
         "nunomaduro/termwind": "^1.14",
         "symfony/finder": "^6.1"
