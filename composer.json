@@ -1,11 +1,11 @@
 {
-    "name": "shift/cli",
-    "description": "A CLI tool for running automated tasks",
+    "name": "laravel-shift/shift-cli",
+    "description": "A CLI tool for running automated tasks from Shift",
     "keywords": ["laravel", "php", "code", "refactor", "automation", "cli"],
     "type": "php",
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "laravel-zero/framework": "^9.2",
         "nikic/php-parser": "^4.15",
         "nunomaduro/termwind": "^1.14",
