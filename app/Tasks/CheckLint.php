@@ -33,7 +33,7 @@ class CheckLint
 
     private function parseError(array $lines): array
     {
-        preg_match('/PHP Parse error:\s+(?:syntax error, )?(.+?)\s+in\s+.+?\.php\s+on\s+line\s+(\d+)/', $lines[0], $matches);
+        preg_match('/PHP (?:Fatal|Parse) error:\s+(?:syntax error, )?(.+?)\s+in\s+.+?\.php\s+on\s+line\s+(\d+)/', $lines[0], $matches);
 
         return [$matches[2], $matches[1]];
     }
