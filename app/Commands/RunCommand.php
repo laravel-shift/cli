@@ -13,7 +13,7 @@ class RunCommand extends Command
 
     protected $description = 'Run one or more automated tasks';
 
-    public function handle()
+    public function handle(): int
     {
         foreach ($this->argument('task') as $task) {
             $result = ($this->createTask($this->taskRegistry($task)))->perform();

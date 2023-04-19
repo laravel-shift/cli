@@ -56,6 +56,7 @@ class TaskManifest
             'debug-calls' => \App\Tasks\DebugCalls::class,
             'format-code' => \App\Tasks\FormatCode::class,
             'order-model' => \App\Tasks\OrderModel::class,
+            'declare-strict' => \App\Tasks\DeclareStrictTypes::class,
         ];
     }
 
