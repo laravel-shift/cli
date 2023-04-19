@@ -57,6 +57,7 @@ class TaskManifest
             'format-code' => \App\Tasks\FormatCode::class,
             'order-model' => \App\Tasks\OrderModel::class,
             'declare-strict' => \App\Tasks\DeclareStrictTypes::class,
+            'remove-docblocks' => \App\Tasks\RemoveDocBlocks::class,
         ];
     }
 
