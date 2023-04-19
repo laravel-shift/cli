@@ -4,10 +4,10 @@ namespace App\Tasks;
 
 class FormatCode
 {
-    public function perform()
+    public function perform(): int
     {
         exec('vendor/bin/pint', result_code: $exit_code);
 
-        exit($exit_code);
+        return $exit_code;
     }
 }

@@ -8,11 +8,11 @@ class DebugCalls
 {
     use FindsFiles;
 
-    public function perform()
+    public function perform(): int
     {
         $files = $this->findFiles();
         if (empty($files)) {
-            exit;
+            return 0;
         }
 
         $finder = new \App\Parsers\NikicParser(new \App\Parsers\Finders\DebugCalls());
