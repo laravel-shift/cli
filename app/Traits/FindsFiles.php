@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Facades\Configuration;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
@@ -26,6 +27,7 @@ trait FindsFiles
         $finder->files()
             ->in(rtrim(getcwd() . DIRECTORY_SEPARATOR . $this->subPath(), DIRECTORY_SEPARATOR))
             ->exclude('vendor')
+            ->notPath(Configuration::get('ignore', []))
             ->name('*.php');
 
         return array_map(fn ($file) => $file->getRealPath(), iterator_to_array($finder, false));
