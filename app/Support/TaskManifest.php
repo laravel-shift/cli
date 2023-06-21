@@ -58,6 +58,9 @@ class TaskManifest
             'order-model' => \App\Tasks\OrderModel::class,
             'declare-strict' => \App\Tasks\DeclareStrictTypes::class,
             'remove-docblocks' => \App\Tasks\RemoveDocBlocks::class,
+            'faker-methods' => \App\Tasks\FakerMethods::class,
+            'facade-aliases' => \App\Tasks\FacadeAliases::class,
+            'model-table' => \App\Tasks\ModelTableName::class,
         ];
     }
 
