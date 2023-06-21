@@ -2,9 +2,10 @@
 
 namespace App\Tasks;
 
+use App\Contracts\Task;
 use App\Traits\FindsFiles;
 
-class RemoveDocBlocks
+class RemoveDocBlocks implements Task
 {
     use FindsFiles;
 

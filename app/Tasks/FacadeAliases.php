@@ -2,13 +2,14 @@
 
 namespace App\Tasks;
 
+use App\Contracts\Task;
 use App\Traits\FindsFiles;
 
-class FacadeAliases
+class FacadeAliases implements Task
 {
     use FindsFiles;
 
-    private $coreFacades = [
+    private array $coreFacades = [
         'App',
         'Artisan',
         'Auth',
@@ -43,12 +44,12 @@ class FacadeAliases
         'View',
     ];
 
-    private $helperClasses = [
+    private array $helperClasses = [
         'Arr',
         'Str',
     ];
 
-    public function perform(): void
+    public function perform(): int
     {
         foreach ($this->files as $file) {
             $contents = file_get_contents($file);
@@ -59,6 +60,8 @@ class FacadeAliases
 
             file_put_contents($file, $contents);
         }
+
+        return 0;
     }
 
     private function replaceAliasImports(string $contents): string

@@ -2,21 +2,22 @@
 
 namespace App\Tasks;
 
+use App\Contracts\Task;
 use App\Traits\FindsFiles;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionException;
 
-class ModelTableName
+class ModelTableName implements Task
 {
     use FindsFiles;
 
-    public function perform(): void
+    public function perform(): int
     {
         foreach ($this->files as $file) {
             $contents = file_get_contents($file);
 
-            if (!str_contains($contents, 'class ')) {
+            if (! str_contains($contents, 'class ')) {
                 continue;
             }
 
@@ -41,11 +42,13 @@ class ModelTableName
 
             file_put_contents($file, $contents);
         }
+
+        return 0;
     }
 
     private function isPivotModel($model): bool
     {
-        return $model->isSubclassOf('Illuminate\\Database\\Eloquent\\Relations\\Pivot'),
+        return $model->isSubclassOf('Illuminate\\Database\\Eloquent\\Relations\\Pivot');
     }
 
     private function tableNameFromClassName($class, $pivot)
@@ -57,27 +60,27 @@ class ModelTableName
         return str_replace('\\', '', Str::snake(Str::plural($class)));
     }
 
-    private function modelClass($file): ?\ReflectionClass
+    private function modelClass($file): ?ReflectionClass
     {
         try {
-            $class = new ReflectionClass(class_from_path($file));
+            $class = new ReflectionClass($this->classFromPath($file));
         } catch (ReflectionException) {
             return null;
         }
 
-        if (!$class->isSubclassOf('Illuminate\\Database\\Eloquent\\Model')) {
+        if (! $class->isSubclassOf('Illuminate\\Database\\Eloquent\\Model')) {
             return null;
         }
 
         $properties = $class->getDefaultProperties();
-        if (!isset($properties['table'])) {
+        if (! isset($properties['table'])) {
             return null;
         }
 
         return $class;
     }
 
-    private function class_from_path($path): string
+    private function classFromPath($path): string
     {
         return ucfirst(substr(str_replace('/', '\\', $path), 0, -4));
     }

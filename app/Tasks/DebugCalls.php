@@ -2,9 +2,11 @@
 
 namespace App\Tasks;
 
+use App\Contracts\Task;
+use App\Parsers\NikicParser;
 use App\Traits\FindsFiles;
 
-class DebugCalls
+class DebugCalls implements Task
 {
     use FindsFiles;
 
@@ -15,14 +17,13 @@ class DebugCalls
             return 0;
         }
 
-        $finder = new \App\Parsers\NikicParser(new \App\Parsers\Finders\DebugCalls());
+        $finder = new NikicParser(new \App\Parsers\Finders\DebugCalls());
         $failure = false;
 
         foreach ($files as $file) {
             $contents = file_get_contents($file);
 
-            $found = preg_match_all('/\b(print_r|var_dump|var_export|dd)\(/', $contents, $matches);
-            if (! $found) {
+            if (! preg_match('/\b(print_r|var_dump|var_export|dd)\(/', $contents)) {
                 continue;
             }
 

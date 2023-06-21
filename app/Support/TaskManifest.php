@@ -52,15 +52,22 @@ class TaskManifest
     private function defaultTasks()
     {
         return [
+            'anonymous-migrations' => \App\Tasks\AnonymousMigrations::class,
             'check-lint' => \App\Tasks\CheckLint::class,
+            'class-strings' => \App\Tasks\ClassStrings::class,
             'debug-calls' => \App\Tasks\DebugCalls::class,
-            'format-code' => \App\Tasks\FormatCode::class,
-            'order-model' => \App\Tasks\OrderModel::class,
             'declare-strict' => \App\Tasks\DeclareStrictTypes::class,
-            'remove-docblocks' => \App\Tasks\RemoveDocBlocks::class,
-            'faker-methods' => \App\Tasks\FakerMethods::class,
+            'down-migration' => \App\Tasks\DownMigration::class,
+            'explicit-orderby' => \App\Tasks\ExplicitOrderBy::class,
             'facade-aliases' => \App\Tasks\FacadeAliases::class,
+            'faker-methods' => \App\Tasks\FakerMethods::class,
+            'laravel-carbon' => \App\Tasks\LaravelCarbon::class,
+            'latest-oldest' => \App\Tasks\LatestOldest::class,
             'model-table' => \App\Tasks\ModelTableName::class,
+            'order-model' => \App\Tasks\OrderModel::class,
+            'remove-docblocks' => \App\Tasks\RemoveDocBlocks::class,
+            'rules-arrays' => \App\Tasks\RulesArrays::class,
+
         ];
     }
 

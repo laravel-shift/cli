@@ -2,10 +2,11 @@
 
 namespace App\Tasks;
 
+use App\Contracts\Task;
 use App\Traits\FindsFiles;
 use Illuminate\Support\Str;
 
-class DeclareStrictTypes
+class DeclareStrictTypes implements Task
 {
     use FindsFiles;
 

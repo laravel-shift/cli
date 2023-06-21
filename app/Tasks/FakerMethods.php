@@ -2,13 +2,15 @@
 
 namespace App\Tasks;
 
+use App\Contracts\Task;
 use App\Traits\FindsFiles;
+use PhpParser\Comment;
 
-class FakerMethods
+class FakerMethods implements Task
 {
     use FindsFiles;
 
-    public function perform(): void
+    public function perform(): int
     {
         $map = array_combine(array_map('strtolower', $this->properties()), $this->properties());
         $pattern = '/(\Wfaker->(?:(?:unique|optional)\(\)->)?)(' . implode('|', $map) . ')(\W)/i';
@@ -44,6 +46,8 @@ class FakerMethods
         }
 
         $this->remainingModifiers();
+
+        return 0;
     }
 
     private function remainingModifiers(): void
