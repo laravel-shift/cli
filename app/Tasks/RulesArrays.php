@@ -14,10 +14,9 @@ class RulesArrays implements Task
 
     public function perform(): int
     {
-        foreach ($this->files as $path) {
+        foreach ($this->findFiles() as $path) {
             $contents = file_get_contents($path);
 
-            // TODO:
             if (! preg_match('/\s+extends\s+FormRequest\s/', $contents)) {
                 continue;
             }

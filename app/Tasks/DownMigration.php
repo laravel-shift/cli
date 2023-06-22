@@ -29,18 +29,12 @@ class DownMigration implements Task
 
     private function updateMigrations(): void
     {
-        foreach ($this->files as $path) {
+        foreach ($this->findFilesContaining('/\s+extends\s+Migration\s/') as $path) {
             if (str_starts_with($path, 'stubs/')) {
                 continue;
             }
 
-            $contents = file_get_contents($path);
-
-            if (! preg_match('/\s+extends\s+Migration\s/', $contents)) {
-                continue;
-            }
-
-            $contents = $this->removeDownMethod($contents);
+            $contents = $this->removeDownMethod(file_get_contents($path));
             if (is_null($contents)) {
                 continue;
             }

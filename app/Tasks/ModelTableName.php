@@ -14,12 +14,8 @@ class ModelTableName implements Task
 
     public function perform(): int
     {
-        foreach ($this->files as $file) {
+        foreach ($this->findFilesContaining('/^class\s+/m') as $file) {
             $contents = file_get_contents($file);
-
-            if (! str_contains($contents, 'class ')) {
-                continue;
-            }
 
             $model = $this->modelClass($file);
             if (is_null($model)) {

@@ -2,9 +2,11 @@
 
 namespace Tests\Support;
 
-class BadTask
+use App\Contracts\Task;
+
+class BadTask implements Task
 {
-    public function perform()
+    public function perform(): int
     {
         return 123;
     }

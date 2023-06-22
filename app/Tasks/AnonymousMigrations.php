@@ -20,18 +20,12 @@ class AnonymousMigrations implements Task
 
     private function updateMigrations(): void
     {
-        foreach ($this->files as $path) {
+        foreach ($this->findFilesContaining('/\bclass\s+\S+\s+extends\s+Migration\s/') as $path) {
             if (str_starts_with($path, 'stubs/')) {
                 continue;
             }
 
-            $contents = file_get_contents($path);
-
-            if (! preg_match('/\bclass\s+\S+\s+extends\s+Migration\s/', $contents)) {
-                continue;
-            }
-
-            $contents = $this->convertClassDefinition($contents);
+            $contents = $this->convertClassDefinition(file_get_contents($path));
             if (is_null($contents)) {
                 continue;
             }

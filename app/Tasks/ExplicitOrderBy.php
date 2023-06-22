@@ -17,13 +17,9 @@ class ExplicitOrderBy implements Task
         $finder = new QueryOrderByFinder(false, true);
         $parser = new NikicParser($finder);
 
-        foreach ($this->files as $path) {
+        foreach ($this->findFilesContaining('/(::|->)\s*orderBy\(/i') as $path) {
             $file = File::fromPath($path);
             $contents = $file->contents();
-
-            if (! preg_match('/(::|->)\s*orderBy\(/i', $contents)) {
-                continue;
-            }
 
             $occurrences = $parser->parse($contents);
 

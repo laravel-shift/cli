@@ -3,8 +3,8 @@
 namespace App\Tasks;
 
 use App\Contracts\Task;
+use App\Facades\Comment;
 use App\Traits\FindsFiles;
-use PhpParser\Comment;
 
 class FakerMethods implements Task
 {
@@ -15,7 +15,7 @@ class FakerMethods implements Task
         $map = array_combine(array_map('strtolower', $this->properties()), $this->properties());
         $pattern = '/(\Wfaker->(?:(?:unique|optional)\(\)->)?)(' . implode('|', $map) . ')(\W)/i';
 
-        foreach ($this->files as $file) {
+        foreach ($this->findFiles() as $file) {
             $contents = file_get_contents($file);
 
             if (! str_contains($contents, 'faker->')) {
@@ -52,14 +52,13 @@ class FakerMethods implements Task
 
     private function remainingModifiers(): void
     {
-        // TODO: need to leave a comment in the CLI...
-        $paths = Shift::findPhpFilesMatching('faker->(unique|optional|valid)\([^)]');
+        $paths = $this->findFilesContaining('/faker->(unique|optional|valid)\([^)]/');
         if (empty($paths)) {
             return;
         }
 
-        $comment = 'Shift detected uses of [Faker modifiers](https://fakerphp.github.io/#modifiers) which received arguments. Shift was not able to reliably convert these instances. You should review the following files and convert any remaining property access chained after a modifier to a method call.';
-        Shift::addComment(Comment::createErrorComment($comment, $paths));
+        $comment = 'Shift detected uses of Faker modifiers which received arguments. Shift was not able to reliably convert these instances. You should review the following files and convert any remaining property access chained after a modifier.';
+        Comment::addWarningComment($comment, 'https://fakerphp.github.io/#modifiers', $paths);
     }
 
     private function properties(): array

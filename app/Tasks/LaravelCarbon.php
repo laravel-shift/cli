@@ -11,7 +11,7 @@ class LaravelCarbon implements Task
 
     public function perform(): int
     {
-        foreach ($this->files as $path) {
+        foreach ($this->findFiles() as $path) {
             $contents = file_get_contents($path);
             $contents = preg_replace('/Carbon\\\\Carbon(?![\w\\\\])/', 'Illuminate\\Support\\Carbon', $contents);
             file_put_contents($path, $contents);

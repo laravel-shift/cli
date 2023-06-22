@@ -17,7 +17,7 @@ class LatestOldest implements Task
         $finder = new QueryOrderByFinder(false, false);
         $parser = new NikicParser($finder);
 
-        foreach ($this->files as $path) {
+        foreach ($this->findFilesContaining('/(::|->)\s*orderBy\(/i') as $path) {
             $file = File::fromPath($path);
             $contents = $file->contents();
             $occurrences = $parser->parse($contents);

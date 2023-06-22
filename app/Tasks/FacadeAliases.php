@@ -51,7 +51,7 @@ class FacadeAliases implements Task
 
     public function perform(): int
     {
-        foreach ($this->files as $file) {
+        foreach ($this->findFiles() as $file) {
             $contents = file_get_contents($file);
 
             $contents = $this->replaceAliasImports($contents);

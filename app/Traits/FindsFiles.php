@@ -19,21 +19,20 @@ trait FindsFiles
             return $this->files;
         }
 
-        if ($this->dirty) {
-            return $this->findDirtyFiles();
-        }
+        $this->files = $this->dirty ? $this->dirtyFiles() : $this->projectFiles();
 
-        $finder = new Finder();
-        $finder->files()
-            ->in(rtrim(getcwd() . DIRECTORY_SEPARATOR . $this->subPath(), DIRECTORY_SEPARATOR))
-            ->exclude('vendor')
-            ->notPath(Configuration::get('ignore', []))
-            ->name('*.php');
-
-        return array_map(fn ($file) => $file->getRealPath(), iterator_to_array($finder, false));
+        return $this->files;
     }
 
-    protected function findDirtyFiles(): array
+    protected function findFilesContaining(string $pattern): array
+    {
+        return array_filter(
+            $this->findFiles(),
+            fn ($file) => preg_match('/' . $pattern . '/', file_get_contents($file))
+        );
+    }
+
+    protected function dirtyFiles(): array
     {
         $process = tap(new Process(['git', 'status', '--short', '--', '*.php']))->run();
 
@@ -47,6 +46,18 @@ trait FindsFiles
             ->map(fn ($status, $file) => $status === 'R' ? Str::after($file, ' -> ') : $file)
             ->values()
             ->all();
+    }
+
+    private function projectFiles(): array
+    {
+        $finder = new Finder();
+        $finder->files()
+            ->in(rtrim(getcwd() . DIRECTORY_SEPARATOR . $this->subPath(), DIRECTORY_SEPARATOR))
+            ->exclude('vendor')
+            ->notPath(Configuration::get('ignore', []))
+            ->name('*.php');
+
+        return array_map(fn ($file) => $file->getRealPath(), iterator_to_array($finder, false));
     }
 
     public function setFiles(array $files): void
