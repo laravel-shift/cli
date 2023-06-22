@@ -2,9 +2,10 @@
 
 namespace App\Tasks;
 
+use App\Contracts\Task;
 use App\Traits\FindsFiles;
 
-class CheckLint
+class CheckLint implements Task
 {
     use FindsFiles;
 

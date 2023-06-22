@@ -2,9 +2,12 @@
 
 namespace App\Tasks;
 
+use App\Contracts\Task;
+use App\Parsers\Finders\ClassDefinition;
+use App\Parsers\NikicParser;
 use App\Traits\FindsFiles;
 
-class OrderModel
+class OrderModel implements Task
 {
     use FindsFiles;
 
@@ -27,7 +30,7 @@ class OrderModel
             return 0;
         }
 
-        $finder = new \App\Parsers\NikicParser(new \App\Parsers\Finders\ClassDefinition());
+        $finder = new NikicParser(new ClassDefinition());
 
         foreach ($files as $file) {
             $lines = file($file);

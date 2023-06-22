@@ -2,9 +2,11 @@
 
 namespace Tests\Support;
 
-class GoodTask
+use App\Contracts\Task;
+
+class GoodTask implements Task
 {
-    public function perform()
+    public function perform(): int
     {
         return 0;
     }
