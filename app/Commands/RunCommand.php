@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Facades\Comment;
 use App\Support\TaskManifest;
 use App\Traits\FindsFiles;
 use InvalidArgumentException;
@@ -21,6 +22,10 @@ class RunCommand extends Command
                 $this->error('Failed to run task: ' . $task);
 
                 return $result;
+            }
+
+            foreach (Comment::flush() as $comment) {
+                $this->outputComment($comment);
             }
         }
 
@@ -42,6 +47,23 @@ class RunCommand extends Command
         }
 
         return $task;
+    }
+
+    private function outputComment(\App\Models\Comment $comment): void
+    {
+        $this->line($comment->content());
+
+        if ($comment->hasReference()) {
+            $this->line('Reference: ' . $comment->reference());
+        }
+
+        if ($comment->hasPaths()) {
+            $this->newLine();
+        }
+
+        foreach ($comment->paths() as $path) {
+            $this->line('  - ' . $path);
+        }
     }
 
     private function taskRegistry(string $task): string

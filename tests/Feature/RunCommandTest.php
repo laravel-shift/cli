@@ -6,6 +6,7 @@ use App\Support\TaskManifest;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Support\BadTask;
+use Tests\Support\CommentTask;
 use Tests\Support\DirtyTask;
 use Tests\Support\GoodTask;
 use Tests\Support\PathTask;
@@ -43,6 +44,23 @@ class RunCommandTest extends TestCase
 
         $this->artisan('run foo-task')
             ->assertFailed();
+    }
+
+    #[Test]
+    public function it_outputs_comment_from_task()
+    {
+        $taskManifest = Mockery::mock(TaskManifest::class);
+        $taskManifest->expects('list')
+            ->withNoArgs()
+            ->andReturn(['comment-task' => CommentTask::class]);
+        $this->swap(TaskManifest::class, $taskManifest);
+
+        $this->artisan('run comment-task')
+            ->assertSuccessful()
+            ->expectsOutput('Leaving a test comment.')
+            ->expectsOutput('Reference: https://laravel.com/docs/')
+            ->expectsOutput('  - file-1.php')
+            ->expectsOutput('  - file-2.php');
     }
 
     #[Test]

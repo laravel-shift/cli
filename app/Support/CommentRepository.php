@@ -2,17 +2,22 @@
 
 namespace App\Support;
 
+use App\Models\Comment;
+
 class CommentRepository
 {
     private array $comments = [];
 
-    public function addWarningComment(string $comment, string $reference = null, array $paths = []): void
+    public function addComment(string $content, array $paths = [], string $reference = null): void
     {
-        $this->comments[] = new Comment($type, $comment, $reference, $paths);
+        $this->comments[] = new Comment($content, $paths, $reference);
     }
 
-    public function comments(): array
+    public function flush(): array
     {
-        return $this->comments;
+        $comments = $this->comments;
+        $this->comments = [];
+
+        return $comments;
     }
 }

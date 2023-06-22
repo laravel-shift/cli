@@ -5,8 +5,10 @@ namespace App\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static void addWarningComment(string $comment, string $reference = null, array $paths = [])
- * @method static array comments()
+ * @method static void addComment(string $comment, array $paths = [], string $reference = null)
+ * @method static array flush()
+ *
+ * @see \App\Support\CommentRepository
  */
 class Comment extends Facade
 {

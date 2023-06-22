@@ -3,9 +3,9 @@
 namespace App\Tasks;
 
 use App\Contracts\Task;
+use App\Models\File;
 use App\Parsers\Finders\QueryOrderByFinder;
 use App\Parsers\NikicParser;
-use App\Support\File;
 use App\Traits\FindsFiles;
 
 class LatestOldest implements Task

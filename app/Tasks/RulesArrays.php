@@ -3,7 +3,7 @@
 namespace App\Tasks;
 
 use App\Contracts\Task;
-use App\Support\File;
+use App\Models\File;
 use App\Traits\FindsFiles;
 
 class RulesArrays implements Task

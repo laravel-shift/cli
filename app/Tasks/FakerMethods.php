@@ -58,7 +58,7 @@ class FakerMethods implements Task
         }
 
         $comment = 'Shift detected uses of Faker modifiers which received arguments. Shift was not able to reliably convert these instances. You should review the following files and convert any remaining property access chained after a modifier.';
-        Comment::addWarningComment($comment, 'https://fakerphp.github.io/#modifiers', $paths);
+        Comment::addComment($comment, $paths, 'https://fakerphp.github.io/#modifiers');
     }
 
     private function properties(): array
