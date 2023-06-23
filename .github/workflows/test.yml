@@ -5,20 +5,9 @@ jobs:
   test:
     strategy:
       matrix:
-        operating-system:
-          - ubuntu-latest
-        php-version:
-          - '8.1'
+        operating-system: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        php-version: ['8.1', '8.2']
     name: php ${{ matrix.php-version }} on ${{ matrix.operating-system }}
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: test
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     runs-on: ${{ matrix.operating-system }}
     steps:
       - name: Checkout
@@ -27,10 +16,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: ''
           coverage: none
-      - name: Prepare the environment
-        run: cp .env.example .env
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -44,13 +30,5 @@ jobs:
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Generate application key
-        run: php artisan key:generate
       - name: Run tests
-        run: php artisan test
-        env:
-          DB_CONNECTION: mysql
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          DB_USERNAME: root
-          DB_DATABASE: test
-          DB_PASSWORD: null
+        run: vendor/bin/phpunit
