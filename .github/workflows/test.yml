@@ -1,0 +1,34 @@
+name: Test
+on:
+  - push
+jobs:
+  test:
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        php-version: ['8.1', '8.2']
+    name: php ${{ matrix.php-version }} on ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.operating-system }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Setup composer cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install composer dependencies
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Run tests
+        run: vendor/bin/phpunit
