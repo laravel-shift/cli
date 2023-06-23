@@ -9,17 +9,15 @@ use Symfony\Component\Process\Process;
 
 trait FindsFiles
 {
-    protected array $files = [];
+    protected ?array $files = null;
+
+    protected array $paths = [];
 
     protected bool $dirty = false;
 
-    protected function findFiles()
+    protected function findFiles(): array
     {
-        if (! empty($this->files)) {
-            return $this->files;
-        }
-
-        $this->files = $this->dirty ? $this->dirtyFiles() : $this->projectFiles();
+        $this->files ??= $this->dirty ? $this->dirtyFiles() : $this->projectFiles();
 
         return $this->files;
     }
@@ -50,19 +48,34 @@ trait FindsFiles
 
     private function projectFiles(): array
     {
-        $finder = new Finder();
-        $finder->files()
-            ->in(rtrim(getcwd() . DIRECTORY_SEPARATOR . $this->subPath(), DIRECTORY_SEPARATOR))
-            ->exclude('vendor')
-            ->notPath(Configuration::get('ignore', []))
-            ->name('*.php');
+        $finder = (new Finder())->files();
+
+        if (! empty($this->paths)) {
+            $directories = array_filter($this->paths, fn ($path) => is_dir($path));
+
+            if (empty($directories)) {
+                return $this->paths;
+            }
+
+            $finder->in($directories);
+
+            $files = array_diff($this->paths, $directories);
+            if (! empty($files)) {
+                $finder->append($files);
+            }
+        } else {
+            $finder->exclude('vendor')
+                ->in(rtrim(getcwd() . DIRECTORY_SEPARATOR . $this->subPath(), DIRECTORY_SEPARATOR))
+                ->notPath(Configuration::get('ignore', []))
+                ->name('*.php');
+        }
 
         return array_map(fn ($file) => $file->getRealPath(), iterator_to_array($finder, false));
     }
 
-    public function setFiles(array $files): void
+    public function setPaths(array $paths): void
     {
-        $this->files = $files;
+        $this->paths = $paths;
     }
 
     public function setDirty(bool $dirty): void

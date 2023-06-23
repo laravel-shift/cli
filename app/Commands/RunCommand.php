@@ -38,7 +38,7 @@ class RunCommand extends Command
 
         if (in_array(FindsFiles::class, class_uses_recursive($task))) {
             if ($this->option('path')) {
-                $task->setFiles($this->option('path'));
+                $task->setPaths($this->option('path'));
             }
 
             if ($this->option('dirty')) {

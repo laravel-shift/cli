@@ -91,7 +91,7 @@ class RunCommandTest extends TestCase
     }
 
     #[Test]
-    public function it_sets_paths_based_on_command_arguments()
+    public function it_finds_files_based_on_command_arguments()
     {
         $taskManifest = Mockery::mock(TaskManifest::class);
         $taskManifest->expects('list')
@@ -99,7 +99,7 @@ class RunCommandTest extends TestCase
             ->andReturn(['path-task' => PathTask::class]);
         $this->swap(TaskManifest::class, $taskManifest);
 
-        $this->artisan('run path-task --path=foo.php --path=src/bar.php --path=tests/qux.php')
+        $this->artisan('run path-task --path=bootstrap --path=app/Commands/RunCommand.php --path=tests/Feature/RunCommandTest.php')
             ->assertSuccessful();
     }
 }
