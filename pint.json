@@ -4,5 +4,9 @@
         "concat_space": {
             "spacing": "one"
         }
-    }
+    },
+    "exclude": [
+        "tests/fixtures",
+        "tests/snapshots"
+    ]
 }
