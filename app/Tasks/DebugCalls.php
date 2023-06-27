@@ -3,6 +3,7 @@
 namespace App\Tasks;
 
 use App\Contracts\Task;
+use App\Facades\Comment;
 use App\Parsers\NikicParser;
 use App\Traits\FindsFiles;
 
@@ -33,7 +34,7 @@ class DebugCalls implements Task
             }
 
             $failure = true;
-            $this->displayError($file, $instances);
+            $this->leaveComment($file, $instances);
 
             foreach (array_reverse($instances) as $instance) {
                 $contents = substr_replace(
@@ -50,13 +51,13 @@ class DebugCalls implements Task
         return $failure ? 1 : 0;
     }
 
-    private function displayError(string $path, array $calls)
+    private function leaveComment(string $path, array $calls): void
     {
-        echo $path;
-        echo PHP_EOL;
-        foreach ($calls as $call) {
-            echo '  - Line ', $call['line']['start'], ': contains call to `', $call['function'], '`', PHP_EOL;
-        }
-        echo PHP_EOL;
+        $instances = array_map(
+            fn ($call) => sprintf('Line %d: contains call to `%s`', $call['line']['start'], $call['function']),
+            $calls
+        );
+
+        Comment::addComment($path, $instances);
     }
 }

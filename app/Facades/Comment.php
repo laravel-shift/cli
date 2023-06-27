@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static void addComment(string $comment, array $paths = [], string $reference = null)
- * @method static array flush()
+ * @method static \App\Models\Comment[] flush()
  *
  * @see \App\Support\CommentRepository
  */

@@ -1,0 +1,57 @@
+<?php
+
+namespace Tests\Feature\Tasks;
+
+use App\Tasks\ClassStrings;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\InteractsWithProject;
+use Tests\TestCase;
+
+/**
+ * @see \App\Tasks\ClassStrings
+ */
+class ClassStringsTest extends TestCase
+{
+    use InteractsWithProject;
+
+    private ClassStrings $subject;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->subject = new ClassStrings();
+    }
+
+    #[Test]
+    public function it_does_nothing_when_no_matches_are_found()
+    {
+        $this->fakeProject([
+            'composer.json' => 'tests/fixtures/class-strings/composer.json',
+            'app/Support/NoOp.php' => '<?php',
+        ]);
+
+        $result = $this->subject->perform();
+
+        $this->assertSame(0, $result);
+
+        $this->assertFileNotChanged('app/Support/NoOp.php');
+    }
+
+    #[Test]
+    public function it_replaces_string_references_to_classes()
+    {
+        $this->fakeProject([
+            'composer.json' => 'tests/fixtures/class-strings/composer.json',
+            'app/Models/Post.php' => 'tests/fixtures/class-strings/simple.php',
+            'app/Providers/RouteServiceProvider.php' => 'tests/fixtures/class-strings/complex.php',
+        ]);
+
+        $result = $this->subject->perform();
+
+        $this->assertSame(0, $result);
+
+        $this->assertFileChanges('tests/fixtures/class-strings/simple.after.php', 'app/Models/Post.php');
+        $this->assertFileChanges('tests/fixtures/class-strings/complex.after.php', 'app/Providers/RouteServiceProvider.php');
+    }
+}

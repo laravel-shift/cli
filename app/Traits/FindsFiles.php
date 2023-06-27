@@ -26,7 +26,7 @@ trait FindsFiles
     {
         return array_filter(
             $this->findFiles(),
-            fn ($file) => preg_match('/' . $pattern . '/', file_get_contents($file))
+            fn ($file) => preg_match($pattern, file_get_contents($file))
         );
     }
 

@@ -58,6 +58,7 @@ class AnonymousMigrations implements Task
                 'ShiftTemporaryTableNamePlaceholder',
                 $contents
             );
+
             $contents = $this->convertClassDefinition($contents);
             if (is_null($contents)) {
                 continue;
@@ -77,7 +78,7 @@ class AnonymousMigrations implements Task
             return null;
         }
 
-        $contents = str_replace(rtrim($matches[0]), 'return new class extends implements Task Migration', $contents);
+        $contents = str_replace(rtrim($matches[0]), 'return new class extends Migration', $contents);
         $contents = preg_replace('/\b' . preg_quote($matches[1], '/') . '::/', 'self::', $contents);
 
         return Str::replaceLast('}', '};', $contents);

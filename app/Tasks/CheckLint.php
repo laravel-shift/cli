@@ -3,6 +3,7 @@
 namespace App\Tasks;
 
 use App\Contracts\Task;
+use App\Facades\Comment;
 use App\Traits\FindsFiles;
 
 class CheckLint implements Task
@@ -24,7 +25,7 @@ class CheckLint implements Task
 
             if ($exit_code !== 0) {
                 [$line, $error] = $this->parseError($output);
-                $this->displayError($file, $line, $error);
+                Comment::addComment($file, ['Line ' . $line . ': ' . $error]);
                 $failure = true;
             }
         }
@@ -37,14 +38,5 @@ class CheckLint implements Task
         preg_match('/PHP (?:Fatal|Parse) error:\s+(?:syntax error, )?(.+?)\s+in\s+.+?\.php\s+on\s+line\s+(\d+)/', $lines[0], $matches);
 
         return [$matches[2], $matches[1]];
-    }
-
-    private function displayError(string $path, int $line, string $error): void
-    {
-        echo $path;
-        echo PHP_EOL;
-        echo '  - Line ', $line, ': ', $error;
-        echo PHP_EOL;
-        echo PHP_EOL;
     }
 }

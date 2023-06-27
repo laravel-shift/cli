@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Commands;
+namespace Tests\Feature\Tasks;
 
 use App\Tasks\LaravelCarbon;
 use PHPUnit\Framework\Attributes\Test;

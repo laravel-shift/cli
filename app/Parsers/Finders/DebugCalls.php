@@ -16,7 +16,7 @@ class DebugCalls
             return false;
         }
 
-        if (! in_array($node->name->toLowerString(), ['var_dump', 'var_export', 'dd', 'print_r'])) {
+        if (! in_array($node->name->toLowerString(), ['var_dump', 'var_export', 'dd', 'dump', 'print_r'])) {
             return false;
         }
 
