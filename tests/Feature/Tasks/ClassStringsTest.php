@@ -43,7 +43,9 @@ class ClassStringsTest extends TestCase
     {
         $this->fakeProject([
             'composer.json' => 'tests/fixtures/class-strings/composer.json',
+            'app/Models/Comment.php' => '<?php',
             'app/Models/Post.php' => 'tests/fixtures/class-strings/simple.php',
+            'app/Models/User.php' => '<?php',
             'app/Providers/RouteServiceProvider.php' => 'tests/fixtures/class-strings/complex.php',
         ]);
 
@@ -51,6 +53,8 @@ class ClassStringsTest extends TestCase
 
         $this->assertSame(0, $result);
 
+        $this->assertFileNotChanged('app/Models/Comment.php');
+        $this->assertFileNotChanged('app/Models/User.php');
         $this->assertFileChanges('tests/fixtures/class-strings/simple.after.php', 'app/Models/Post.php');
         $this->assertFileChanges('tests/fixtures/class-strings/complex.after.php', 'app/Providers/RouteServiceProvider.php');
     }
