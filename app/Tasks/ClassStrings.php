@@ -64,7 +64,7 @@ class ClassStrings implements Task
 
     private function patternForNamespaces(array $namespaces): string
     {
-        return '\\\\?(' . implode('|', array_map(fn ($namespace) => preg_quote(rtrim($namespace, '\\'), '/'), $namespaces)) . ')\\\\+';
+        return '(?:[\\\\]+)?(' . implode('|', array_map(fn ($namespace) => preg_quote(rtrim($namespace, '\\'), '/'), $namespaces)) . ')\\\\+';
     }
 
     private function psr4Namespaces(): array

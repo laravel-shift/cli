@@ -46,6 +46,8 @@ class ClassStringsTest extends TestCase
             'app/Models/Comment.php' => '<?php',
             'app/Models/Post.php' => 'tests/fixtures/class-strings/simple.php',
             'app/Models/User.php' => '<?php',
+            'modules/Foo.php' => '<?php',
+            'src/Bar.php' => '<?php',
             'app/Providers/RouteServiceProvider.php' => 'tests/fixtures/class-strings/complex.php',
         ]);
 
