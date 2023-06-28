@@ -27,7 +27,7 @@ class ConfigurationRepository
         return $this->data;
     }
 
-    private function defaults(): array
+    public function defaults(): array
     {
         return [
             'tasks' => [
