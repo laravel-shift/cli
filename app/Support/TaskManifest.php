@@ -16,7 +16,7 @@ class TaskManifest
         $this->vendorPath = $vendorPath;
     }
 
-    public function list()
+    public function list(): array
     {
         if (! empty($this->manifest)) {
             return $this->manifest;
@@ -30,7 +30,7 @@ class TaskManifest
             require $this->manifestPath : [];
     }
 
-    public function build()
+    public function build(): void
     {
         $packages = [];
 
@@ -49,7 +49,7 @@ class TaskManifest
             ->all());
     }
 
-    private function defaultTasks()
+    private function defaultTasks(): array
     {
         return [
             'anonymous-migrations' => \App\Tasks\AnonymousMigrations::class,
@@ -67,11 +67,10 @@ class TaskManifest
             'order-model' => \App\Tasks\OrderModel::class,
             'remove-docblocks' => \App\Tasks\RemoveDocBlocks::class,
             'rules-arrays' => \App\Tasks\RulesArrays::class,
-
         ];
     }
 
-    protected function write(array $manifest)
+    protected function write(array $manifest): void
     {
         if (! is_writable($dirname = dirname($this->manifestPath))) {
             throw new \Exception("The {$dirname} directory must be present and writable.");

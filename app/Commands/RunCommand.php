@@ -2,7 +2,9 @@
 
 namespace App\Commands;
 
+use App\Contracts\Task;
 use App\Facades\Comment;
+use App\Facades\Configuration;
 use App\Support\TaskManifest;
 use App\Traits\FindsFiles;
 use InvalidArgumentException;
@@ -10,13 +12,15 @@ use LaravelZero\Framework\Commands\Command;
 
 class RunCommand extends Command
 {
-    protected $signature = 'run {task* : The name of the automated task} {--dirty} {--path=* : The paths to scan}';
+    protected $signature = 'run  {--dirty} {--path=* : The paths to scan} {task?* : The name of the automated task}';
 
     protected $description = 'Run one or more automated tasks';
 
     public function handle(): int
     {
-        foreach ($this->argument('task') as $task) {
+        $tasks = empty($this->argument('task')) ? Configuration::get('tasks') : $this->argument('task');
+
+        foreach ($tasks as $task) {
             $result = ($this->createTask($this->taskRegistry($task)))->perform();
             if ($result !== 0) {
                 $this->error('Failed to run task: ' . $task);
@@ -32,7 +36,7 @@ class RunCommand extends Command
         return 0;
     }
 
-    private function createTask(string $name): object
+    private function createTask(string $name): Task
     {
         $task = new $name;
 
