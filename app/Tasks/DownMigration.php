@@ -89,9 +89,9 @@ class DownMigration implements Task
         $first_line = $class['methods']['down']['line']['start'];
         $file->removeSegment($class['methods']['down']['line']['start'], $class['methods']['down']['line']['end']);
 
-        if (isset($class['methods']['down']['docblock'])) {
-            $first_line = $class['methods']['down']['docblock']['line']['start'];
-            $file->removeSegment($class['methods']['down']['docblock']['line']['start'], $class['methods']['down']['docblock']['line']['end']);
+        if (isset($class['methods']['down']['comment'])) {
+            $first_line = $class['methods']['down']['comment']['line']['start'];
+            $file->removeSegment($class['methods']['down']['comment']['line']['start'], $class['methods']['down']['comment']['line']['end']);
         }
 
         $file->removeBlankLinesBefore($first_line);
