@@ -25,8 +25,7 @@ class FormRequestStringRulesFinder
 
         foreach ($instances as $instance) {
             $output[] = [
-                'startLine' => $instance->getAttribute('startLine'),
-                'endLine' => $instance->getAttribute('endLine'),
+                'line' => ['start' => $instance->getAttribute('startLine'), 'end' => $instance->getAttribute('endLine')],
                 'values' => $this->getValues($instance->expr),
             ];
         }
@@ -43,8 +42,7 @@ class FormRequestStringRulesFinder
             })
             ->map(function ($item) {
                 return [
-                    'startLine' => $item->getAttribute('startLine'),
-                    'endLine' => $item->getAttribute('endLine'),
+                    'line' => ['start' => $item->getAttribute('startLine'), 'end' => $item->getAttribute('endLine')],
                     'key' => $item->key->value,
                     'value' => $this->expandConcat($item->value),
                 ];
@@ -58,8 +56,7 @@ class FormRequestStringRulesFinder
             })
             ->map(function ($item) {
                 return [
-                    'startLine' => $item->getAttribute('startLine'),
-                    'endLine' => $item->getAttribute('endLine'),
+                    'line' => ['start' => $item->getAttribute('startLine'), 'end' => $item->getAttribute('endLine')],
                     'key' => $item->key->value,
                     'value' => $item->value->value,
                 ];

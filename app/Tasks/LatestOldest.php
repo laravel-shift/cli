@@ -31,7 +31,7 @@ class LatestOldest implements Task
                     continue;
                 }
 
-                $block = $file->segment($occurrence['startLine'], $occurrence['endLine']);
+                $block = $file->segment($occurrence['line']['start'], $occurrence['line']['end']);
 
                 $pattern = '/\b' . $occurrence['method'] . '\((\'|")([^,)>]+?)\1(?:,\s*(\'|")([^)]+?)\3)?\)/i';
 

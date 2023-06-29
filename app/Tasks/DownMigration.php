@@ -86,8 +86,8 @@ class DownMigration implements Task
             return null;
         }
 
-        $first_line = $class['methods']['down']['startLine'];
-        $file->removeSegment($class['methods']['down']['startLine'], $class['methods']['down']['endLine']);
+        $first_line = $class['methods']['down']['line']['start'];
+        $file->removeSegment($class['methods']['down']['line']['start'], $class['methods']['down']['line']['end']);
 
         if (isset($class['methods']['down']['docblock'])) {
             $first_line = $class['methods']['down']['docblock']['line']['start'];

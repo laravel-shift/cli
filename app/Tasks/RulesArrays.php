@@ -34,7 +34,7 @@ class RulesArrays implements Task
             $rules_method = $class['methods']['rules'];
 
             $returns = array_filter($this->parseRules($contents), function ($return) use ($rules_method) {
-                return $return['startLine'] >= $rules_method['startLine'] && $return['endLine'] <= $rules_method['endLine'];
+                return $return['line']['start'] >= $rules_method['line']['start'] && $return['line']['end'] <= $rules_method['line']['end'];
             });
 
             if (empty($returns)) {
@@ -44,11 +44,11 @@ class RulesArrays implements Task
             $file = File::fromPath($path);
 
             foreach ($returns as $return) {
-                $body = $file->segment($return['startLine'], $return['endLine']);
+                $body = $file->segment($return['line']['start'], $return['line']['end']);
                 $new_body = $body;
 
                 foreach ($return['values'] as $rules) {
-                    $block = $file->segment($rules['startLine'], $rules['endLine']);
+                    $block = $file->segment($rules['line']['start'], $rules['line']['end']);
 
                     if (is_array($rules['value'])) {
                         $skipped = false;
@@ -118,6 +118,8 @@ class RulesArrays implements Task
 
             file_put_contents($path, $contents);
         }
+
+        return 0;
     }
 
     private function parseRules(string $contents): array
@@ -136,7 +138,5 @@ class RulesArrays implements Task
         $finder ??= new \App\Parsers\NikicParser(new \App\Parsers\Finders\ClassDefinition());
 
         return $finder->parse($contents);
-
-        $returnParser = new \App\Parsers\NikicParser(new \App\Parsers\Finders\FormRequestStringRulesFinder());
     }
 }

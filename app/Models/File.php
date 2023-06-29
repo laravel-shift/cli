@@ -67,7 +67,7 @@ class File
         return $this->count;
     }
 
-    public function line($number): int
+    public function line($number): string
     {
         return $this->lines[$number - 1];
     }

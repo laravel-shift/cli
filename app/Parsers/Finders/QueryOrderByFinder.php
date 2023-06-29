@@ -43,8 +43,7 @@ class QueryOrderByFinder
 
         foreach ($instances as $instance) {
             $data = [
-                'startLine' => $instance->getAttribute('startLine'),
-                'endLine' => $instance->getAttribute('endLine'),
+                'line' => ['start' => $instance->getAttribute('startLine'), 'end' => $instance->getAttribute('endLine')],
                 'method' => strtolower($instance->name->name),
             ];
 

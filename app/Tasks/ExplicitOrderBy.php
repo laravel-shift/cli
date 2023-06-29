@@ -28,7 +28,7 @@ class ExplicitOrderBy implements Task
             }
 
             foreach ($occurrences as $occurrence) {
-                $block = $file->segment($occurrence['startLine'], $occurrence['endLine']);
+                $block = $file->segment($occurrence['line']['start'], $occurrence['line']['end']);
 
                 $pattern = '/\borderBy\(([^,>]+?),\s*(\'|")(asc|desc)\2\s*\)/i';
 
