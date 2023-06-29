@@ -33,7 +33,6 @@ class ConfigurationRepository
             'tasks' => [
                 'anonymous-migrations',
                 'class-strings',
-                'down-migration',
                 'explicit-orderby',
                 'facade-aliases',
                 'faker-methods',
