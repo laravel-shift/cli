@@ -72,7 +72,6 @@ class ConfigurationRepositoryTest extends TestCase
         return [
             'anonymous-migrations',
             'class-strings',
-            'down-migration',
             'explicit-orderby',
             'facade-aliases',
             'faker-methods',

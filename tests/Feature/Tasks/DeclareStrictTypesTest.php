@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Facades\Comment;
 use App\Tasks\DeclareStrictTypes;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\InteractsWithProject;
