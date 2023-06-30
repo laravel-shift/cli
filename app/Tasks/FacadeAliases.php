@@ -55,7 +55,6 @@ class FacadeAliases implements Task
             $contents = file_get_contents($file);
 
             $contents = $this->replaceAliasImports($contents);
-            $contents = $this->replaceAliasReferences($contents);
             $contents = $this->replaceHelperReferences($contents);
 
             file_put_contents($file, $contents);
@@ -64,17 +63,37 @@ class FacadeAliases implements Task
         return 0;
     }
 
+    private function addImport(string $import, mixed $contents): string
+    {
+        $count = 0;
+        $replacement = 'use ' . $import . ';';
+
+        $contents = preg_replace('/^use\s+/m', $replacement . PHP_EOL . '\0', $contents, 1, $count);
+        if ($count) {
+            return $contents;
+        }
+
+        $contents = preg_replace('/^namespace\s+[^;]+;/m', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
+        if ($count) {
+            return $contents;
+        }
+
+        $contents = preg_replace('/^declare\([^;]+;/m', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
+        if ($count) {
+            return $contents;
+        }
+
+        return preg_replace('/^<\\?php/', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
+    }
+
     private function replaceAliasImports(string $contents): string
     {
-        return preg_replace(
+        $contents = preg_replace(
             '/use (' . implode('|', $this->coreFacades) . ');/',
             'use Illuminate\\Support\\Facades\\\\$1;',
             $contents
         );
-    }
 
-    private function replaceAliasReferences(string $contents): string
-    {
         return $this->replaceReferences($contents, $this->coreFacades);
     }
 
@@ -86,18 +105,36 @@ class FacadeAliases implements Task
             $contents
         );
 
-        $contents = $this->replaceReferences($contents, $this->helperClasses);
-
-        return $contents;
+        return $this->replaceReferences($contents, $this->helperClasses);
     }
 
     private function replaceReferences(string $contents, array $references): string
     {
-        // TODO: does it have the correct import...
-        return preg_replace(
+        $imports = [];
+
+        $contents = preg_replace_callback(
             '/(\W)\\\\(' . implode('|', $references) . ')::/',
-            '$1$2::',
+            function ($matches) use (&$imports) {
+                $imports[] = $matches[2];
+
+                return $matches[1] . $matches[2] . '::';
+            },
             $contents
         );
+
+        foreach ($imports as $import) {
+            $prefix = 'Illuminate\\Support\\';
+            if (in_array($import, $this->coreFacades)) {
+                $prefix .= 'Facades\\';
+            }
+
+            if (str_contains('use ' . $prefix . $import . ';', $contents)) {
+                continue;
+            }
+
+            $contents = $this->addImport($prefix . $import, $contents);
+        }
+
+        return $contents;
     }
 }
