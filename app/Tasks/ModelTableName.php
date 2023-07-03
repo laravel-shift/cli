@@ -60,7 +60,9 @@ class ModelTableName implements Task
     {
         try {
             $class = new ReflectionClass($this->classFromPath($file));
-        } catch (ReflectionException) {
+        } catch (ReflectionException $e) {
+            var_dump($e->getMessage());
+
             return null;
         }
 
