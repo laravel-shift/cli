@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Tasks\FacadeAliases;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Tasks\FacadeAliases;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\FacadeAliases
+ * @see \Shift\Cli\Tasks\FacadeAliases
  */
 class FacadeAliasesTest extends TestCase
 {

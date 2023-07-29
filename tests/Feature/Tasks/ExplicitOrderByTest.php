@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Tasks\ExplicitOrderBy;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Tasks\ExplicitOrderBy;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\ExplicitOrderBy
+ * @see \Shift\Cli\Tasks\ExplicitOrderBy
  */
 class ExplicitOrderByTest extends TestCase
 {

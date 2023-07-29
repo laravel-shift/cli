@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Tasks\DeclareStrictTypes;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Tasks\DeclareStrictTypes;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\DeclareStrictTypes
+ * @see \Shift\Cli\Tasks\DeclareStrictTypes
  */
 class DeclareStrictTypesTest extends TestCase
 {

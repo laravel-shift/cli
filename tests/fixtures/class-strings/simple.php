@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Shift\Cli\Models;
 
 use Illuminate\Eloquent\Model;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support;
+namespace Shift\Cli\Support;
 
 use App;
 use Arr;

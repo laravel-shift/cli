@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Shift\Cli\Http\Controllers;
 
 use Carbon\Carbon;
 

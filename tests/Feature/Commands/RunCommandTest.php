@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Commands;
 
-use App\Support\TaskManifest;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Support\TaskManifest;
 use Tests\Support\BadTask;
 use Tests\Support\CommentTask;
 use Tests\Support\DirtyTask;
@@ -13,7 +13,7 @@ use Tests\Support\PathTask;
 use Tests\TestCase;
 
 /**
- * @see \App\Commands\RunCommand
+ * @see \Shift\Cli\Commands\RunCommand
  */
 class RunCommandTest extends TestCase
 {

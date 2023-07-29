@@ -2,8 +2,8 @@
 
 namespace Tests\Support;
 
-use App\Contracts\Task;
-use App\Traits\FindsFiles;
+use Shift\Cli\Contracts\Task;
+use Shift\Cli\Traits\FindsFiles;
 
 class PathTask implements Task
 {

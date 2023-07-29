@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Models;
+namespace Tests\Shift\Cli\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

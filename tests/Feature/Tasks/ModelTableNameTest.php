@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Tasks\ModelTableName;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Tasks\ModelTableName;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\ModelTableName
+ * @see \Shift\Cli\Tasks\ModelTableName
  */
 class ModelTableNameTest extends TestCase
 {

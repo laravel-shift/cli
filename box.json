@@ -1,19 +1,16 @@
 {
-    "chmod": "0755",
     "directories": [
-        "app",
-        "bootstrap",
-        "config",
+        "src",
         "vendor"
     ],
     "files": [
         "composer.json"
     ],
-    "exclude-composer-files": false,
-    "exclude-dev-files": false,
+    "main": "shift-cli",
+    "output": "builds/shift-cli",
     "compression": "GZ",
     "compactors": [
         "KevinGH\\Box\\Compactor\\Php",
-        "KevinGH\\Box\\Compactor\\Json"
+        "KevinGH\\Box\\Compactor\\PhpScoper"
     ]
 }

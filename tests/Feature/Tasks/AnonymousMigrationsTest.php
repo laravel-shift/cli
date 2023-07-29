@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Tasks\AnonymousMigrations;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Tasks\AnonymousMigrations;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\AnonymousMigrations
+ * @see \Shift\Cli\Tasks\AnonymousMigrations
  */
 class AnonymousMigrationsTest extends TestCase
 {

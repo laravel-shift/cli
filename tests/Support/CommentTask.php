@@ -2,8 +2,8 @@
 
 namespace Tests\Support;
 
-use App\Contracts\Task;
-use App\Facades\Comment;
+use Shift\Cli\Contracts\Task;
+use Shift\Cli\Facades\Comment;
 
 class CommentTask implements Task
 {

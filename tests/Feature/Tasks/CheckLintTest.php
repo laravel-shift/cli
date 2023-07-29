@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Facades\Comment;
-use App\Tasks\CheckLint;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Facades\Comment;
+use Shift\Cli\Tasks\CheckLint;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\CheckLint
+ * @see \Shift\Cli\Tasks\CheckLint
  */
 class CheckLintTest extends TestCase
 {

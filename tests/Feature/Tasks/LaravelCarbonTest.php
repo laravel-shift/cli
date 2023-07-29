@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Tasks\LaravelCarbon;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Tasks\LaravelCarbon;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\LaravelCarbon
+ * @see \Shift\Cli\Tasks\LaravelCarbon
  */
 class LaravelCarbonTest extends TestCase
 {

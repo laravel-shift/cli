@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Facades\Comment;
-use App\Tasks\DebugCalls;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Facades\Comment;
+use Shift\Cli\Tasks\DebugCalls;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\DebugCalls
+ * @see \Shift\Cli\Tasks\DebugCalls
  */
 class DebugCallsTest extends TestCase
 {

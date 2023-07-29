@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Tasks\DownMigration;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Tasks\DownMigration;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\DownMigration
+ * @see \Shift\Cli\Tasks\DownMigration
  */
 class DownMigrationTest extends TestCase
 {

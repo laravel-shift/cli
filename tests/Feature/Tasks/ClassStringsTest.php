@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Tasks;
 
-use App\Tasks\ClassStrings;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Tasks\ClassStrings;
 use Tests\InteractsWithProject;
 use Tests\TestCase;
 
 /**
- * @see \App\Tasks\ClassStrings
+ * @see \Shift\Cli\Tasks\ClassStrings
  */
 class ClassStringsTest extends TestCase
 {
