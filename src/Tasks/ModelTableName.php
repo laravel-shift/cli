@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use ReflectionClass;
 use Shift\Cli\Contracts\Task;
 use Shift\Cli\Facades\Reflector;
+use Shift\Cli\Models\File;
 use Shift\Cli\Traits\FindsFiles;
 
 class ModelTableName implements Task
@@ -14,29 +15,28 @@ class ModelTableName implements Task
 
     public function perform(): int
     {
-        foreach ($this->findFilesContaining('/^class\s+/m') as $file) {
-            $contents = file_get_contents($file);
-
-            $model = $this->modelClass($file);
+        foreach ($this->findFilesContaining('/^class\s+/m') as $path) {
+            $model = $this->modelClass($path);
             if (is_null($model)) {
                 continue;
             }
 
-            $conventional_name = $this->tableNameFromClassName($model->getName(), $this->isPivotModel($model));
+            var_dump('here');
+
+            $conventional_name = $this->tableNameFromClassName($model->getShortName(), $this->isPivotModel($model));
 
             if ($model->getProperty('table')->getDefaultValue() !== $conventional_name) {
                 continue;
             }
 
-            // TODO: use ClassFinder to remove property
-            $contents = substr_replace(
-                $contents,
-                '',
-                $instance['offset']['start'],
-                $instance['offset']['end'] - $instance['offset']['start'] + 1
-            );
+            $file = File::fromPath($path);
+            $class = $this->parseClass($file->contents());
 
-            file_put_contents($file, $contents);
+            $start = $class['properties']['table']['comment'] ? $class['properties']['table']['comment']['line']['start'] : $class['properties']['table']['line']['start'];
+            $file->removeBlankLinesAfter($class['properties']['table']['line']['end']);
+            $file->removeSegment($start, $class['properties']['table']['line']['end']);
+
+            file_put_contents($path, $file->contents());
         }
 
         return 0;
@@ -73,5 +73,14 @@ class ModelTableName implements Task
         }
 
         return $class;
+    }
+
+    private function parseClass(string $contents)
+    {
+        static $finder;
+
+        $finder ??= new \Shift\Cli\Parsers\NikicParser(new \Shift\Cli\Parsers\Finders\ClassDefinition());
+
+        return $finder->parse($contents);
     }
 }
