@@ -1,4 +1,6 @@
 /vendor
+/vendor-bin
+/.box_dump
 /.idea
 /.vscode
 /.vagrant
