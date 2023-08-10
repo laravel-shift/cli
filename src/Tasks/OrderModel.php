@@ -2,10 +2,10 @@
 
 namespace Shift\Cli\Tasks;
 
-use Shift\Cli\Contracts\Task;
-use Shift\Cli\Parsers\Finders\ClassDefinition;
-use Shift\Cli\Parsers\NikicParser;
-use Shift\Cli\Traits\FindsFiles;
+use Shift\Cli\Sdk\Contracts\Task;
+use Shift\Cli\Sdk\Parsers\Finders\ClassDefinition;
+use Shift\Cli\Sdk\Parsers\NikicParser;
+use Shift\Cli\Sdk\Traits\FindsFiles;
 
 class OrderModel implements Task
 {

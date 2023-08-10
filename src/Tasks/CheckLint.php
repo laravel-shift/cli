@@ -2,9 +2,9 @@
 
 namespace Shift\Cli\Tasks;
 
-use Shift\Cli\Contracts\Task;
-use Shift\Cli\Facades\Comment;
-use Shift\Cli\Traits\FindsFiles;
+use Shift\Cli\Sdk\Contracts\Task;
+use Shift\Cli\Sdk\Facades\Comment;
+use Shift\Cli\Sdk\Traits\FindsFiles;
 
 class CheckLint implements Task
 {

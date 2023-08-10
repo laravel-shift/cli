@@ -2,10 +2,10 @@
 
 namespace Shift\Cli\Tasks;
 
-use Shift\Cli\Contracts\Task;
-use Shift\Cli\Facades\Comment;
-use Shift\Cli\Parsers\NikicParser;
-use Shift\Cli\Traits\FindsFiles;
+use Shift\Cli\Sdk\Contracts\Task;
+use Shift\Cli\Sdk\Parsers\NikicParser;
+use Shift\Cli\Sdk\Facades\Comment;
+use Shift\Cli\Sdk\Traits\FindsFiles;
 
 class DebugCalls implements Task
 {
@@ -18,7 +18,7 @@ class DebugCalls implements Task
             return 0;
         }
 
-        $finder = new NikicParser(new \Shift\Cli\Parsers\Finders\DebugCalls());
+        $finder = new NikicParser(new \Shift\Cli\Sdk\Parsers\Finders\DebugCalls());
         $failure = false;
 
         foreach ($files as $file) {

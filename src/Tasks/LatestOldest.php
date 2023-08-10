@@ -2,11 +2,11 @@
 
 namespace Shift\Cli\Tasks;
 
-use Shift\Cli\Contracts\Task;
-use Shift\Cli\Models\File;
-use Shift\Cli\Parsers\Finders\QueryOrderByFinder;
-use Shift\Cli\Parsers\NikicParser;
-use Shift\Cli\Traits\FindsFiles;
+use Shift\Cli\Sdk\Contracts\Task;
+use Shift\Cli\Sdk\Parsers\Finders\QueryOrderByFinder;
+use Shift\Cli\Sdk\Parsers\NikicParser;
+use Shift\Cli\Sdk\Models\File;
+use Shift\Cli\Sdk\Traits\FindsFiles;
 
 class LatestOldest implements Task
 {

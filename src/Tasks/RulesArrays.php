@@ -2,9 +2,9 @@
 
 namespace Shift\Cli\Tasks;
 
-use Shift\Cli\Contracts\Task;
-use Shift\Cli\Models\File;
-use Shift\Cli\Traits\FindsFiles;
+use Shift\Cli\Sdk\Contracts\Task;
+use Shift\Cli\Sdk\Models\File;
+use Shift\Cli\Sdk\Traits\FindsFiles;
 
 class RulesArrays implements Task
 {
@@ -126,7 +126,7 @@ class RulesArrays implements Task
     {
         static $finder;
 
-        $finder ??= new \Shift\Cli\Parsers\NikicParser(new \Shift\Cli\Parsers\Finders\FormRequestStringRulesFinder());
+        $finder ??= new \Shift\Cli\Sdk\Parsers\NikicParser(new \Shift\Cli\Sdk\Parsers\Finders\FormRequestStringRulesFinder());
 
         return $finder->parse($contents);
     }
@@ -135,7 +135,7 @@ class RulesArrays implements Task
     {
         static $finder;
 
-        $finder ??= new \Shift\Cli\Parsers\NikicParser(new \Shift\Cli\Parsers\Finders\ClassDefinition());
+        $finder ??= new \Shift\Cli\Sdk\Parsers\NikicParser(new \Shift\Cli\Sdk\Parsers\Finders\ClassDefinition());
 
         return $finder->parse($contents);
     }

@@ -4,13 +4,13 @@ namespace Tests\Feature\Commands;
 
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Sdk\Testing\Support\BadTask;
+use Shift\Cli\Sdk\Testing\Support\CommentTask;
+use Shift\Cli\Sdk\Testing\Support\DirtyTask;
+use Shift\Cli\Sdk\Testing\Support\GoodTask;
+use Shift\Cli\Sdk\Testing\Support\PathTask;
+use Shift\Cli\Sdk\Testing\TestCase;
 use Shift\Cli\Support\TaskManifest;
-use Tests\Support\BadTask;
-use Tests\Support\CommentTask;
-use Tests\Support\DirtyTask;
-use Tests\Support\GoodTask;
-use Tests\Support\PathTask;
-use Tests\TestCase;
 
 /**
  * @see \Shift\Cli\Commands\RunCommand

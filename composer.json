@@ -1,10 +1,12 @@
 {
-    "name": "laravel-shift/shift-cli",
+    "name": "laravel-shift/cli",
     "description": "A CLI tool for running automated tasks from Shift",
     "keywords": ["laravel", "php", "code", "refactor", "automation", "cli"],
     "license": "MIT",
     "require": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "symfony/console": "^6.3",
+        "laravel-shift/cli-sdk": "dev-main"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8",

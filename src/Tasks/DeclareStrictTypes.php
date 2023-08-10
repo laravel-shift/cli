@@ -3,8 +3,8 @@
 namespace Shift\Cli\Tasks;
 
 use Illuminate\Support\Str;
-use Shift\Cli\Contracts\Task;
-use Shift\Cli\Traits\FindsFiles;
+use Shift\Cli\Sdk\Contracts\Task;
+use Shift\Cli\Sdk\Traits\FindsFiles;
 
 class DeclareStrictTypes implements Task
 {

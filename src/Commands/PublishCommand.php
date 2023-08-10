@@ -3,7 +3,7 @@
 namespace Shift\Cli\Commands;
 
 use LaravelZero\Framework\Commands\Command;
-use Shift\Cli\Facades\Configuration;
+use Shift\Cli\Sdk\Facades\Configuration;
 
 class PublishCommand extends Command
 {

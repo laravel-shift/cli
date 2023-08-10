@@ -4,13 +4,16 @@
 
 require __DIR__.'/vendor/autoload.php';
 
+use Illuminate\Support\Env;
+use Shift\Cli\Support\TaskManifest;
 use Symfony\Component\Console\Application;
 use Shift\Cli\Commands\DiscoverCommand;
 //use Shift\Cli\Commands\HelpCommand;
 use Shift\Cli\Commands\RunCommand;
 use Shift\Cli\Commands\PublishCommand;
 
-$command = new RunCommand();
+
+$command = new RunCommand(new TaskManifest(Env::get('COMPOSER_VENDOR_DIR') ?: getcwd() . '/vendor'));
 $application = new Application();
 $application->add($command);
 $application->setDefaultCommand($command->getName());

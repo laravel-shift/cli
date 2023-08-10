@@ -3,10 +3,10 @@
 namespace Tests\Feature\Tasks;
 
 use PHPUnit\Framework\Attributes\Test;
-use Shift\Cli\Facades\Comment;
+use Shift\Cli\Sdk\Facades\Comment;
+use Shift\Cli\Sdk\Testing\InteractsWithProject;
+use Shift\Cli\Sdk\Testing\TestCase;
 use Shift\Cli\Tasks\DebugCalls;
-use Tests\InteractsWithProject;
-use Tests\TestCase;
 
 /**
  * @see \Shift\Cli\Tasks\DebugCalls

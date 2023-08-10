@@ -3,9 +3,9 @@
 namespace Tests\Feature\Tasks;
 
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Sdk\Testing\InteractsWithProject;
+use Shift\Cli\Sdk\Testing\TestCase;
 use Shift\Cli\Tasks\ExplicitOrderBy;
-use Tests\InteractsWithProject;
-use Tests\TestCase;
 
 /**
  * @see \Shift\Cli\Tasks\ExplicitOrderBy

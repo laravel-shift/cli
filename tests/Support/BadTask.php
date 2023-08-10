@@ -2,7 +2,7 @@
 
 namespace Tests\Support;
 
-use Shift\Cli\Contracts\Task;
+use Shift\Cli\Sdk\Contracts\Task;
 
 class BadTask implements Task
 {

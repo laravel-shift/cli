@@ -2,12 +2,11 @@
 
 namespace Shift\Cli\Commands;
 
-use InvalidArgumentException;
-use Shift\Cli\Contracts\Task;
-use Shift\Cli\Facades\Comment;
-use Shift\Cli\Facades\Configuration;
+use Shift\Cli\Sdk\Contracts\Task;
+use Shift\Cli\Sdk\Facades\Comment;
+use Shift\Cli\Sdk\Facades\Configuration;
+use Shift\Cli\Sdk\Traits\FindsFiles;
 use Shift\Cli\Support\TaskManifest;
-use Shift\Cli\Traits\FindsFiles;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,6 +20,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class RunCommand extends Command
 {
+    private TaskManifest $taskManifest;
+
+    public function __construct(TaskManifest $taskManifest)
+    {
+        parent::__construct();
+
+        $this->taskManifest = $taskManifest;
+    }
+
     protected function configure(): void
     {
         $this->addArgument('task', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The name of the automated task');
@@ -65,7 +73,7 @@ class RunCommand extends Command
         return $task;
     }
 
-    private function outputComment(\Shift\Cli\Models\Comment $comment, OutputInterface $output): void
+    private function outputComment(\Shift\Cli\Sdk\Models\Comment $comment, OutputInterface $output): void
     {
         $output->writeln($comment->content());
 
@@ -84,10 +92,10 @@ class RunCommand extends Command
 
     private function taskRegistry(string $task): string
     {
-        $tasks = (new TaskManifest(getenv('COMPOSER_VENDOR_DIR') ?: getcwd() . '/vendor'))->list();
+        $tasks = $this->taskManifest->list();
 
         if (! isset($tasks[$task])) {
-            throw new InvalidArgumentException('Task not registered: ' . $task);
+            throw new \InvalidArgumentException('Task not registered: ' . $task);
         }
 
         return $tasks[$task];
