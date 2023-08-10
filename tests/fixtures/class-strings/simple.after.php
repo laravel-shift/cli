@@ -8,11 +8,11 @@ class Post extends Model
 {
     public function user()
     {
-        return $this->belongsTo(\Shift\Cli\Models\User::class);
+        return $this->belongsTo(\App\Models\User::class);
     }
 
     public function comments()
     {
-        return $this->hasMany(\Shift\Cli\Models\Comment::class);
+        return $this->hasMany(\App\Models\Comment::class);
     }
 }

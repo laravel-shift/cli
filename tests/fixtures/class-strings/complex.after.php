@@ -12,9 +12,9 @@ class RouteServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Route::bind('user', \Shift\Cli\Models\User::class);
-        Route::bind('comment', \Shift\Cli\Models\Comment::class);
-        Route::bind('post', \Shift\Cli\Models\Post::class);
+        Route::bind('user', \App\Models\User::class);
+        Route::bind('comment', \App\Models\Comment::class);
+        Route::bind('post', \App\Models\Post::class);
 
         Route::bind('foo', \Modules\Foo::class);
         Route::bind('bar', \Modules\Bar::class);

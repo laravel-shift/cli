@@ -3,8 +3,8 @@
 namespace Shift\Cli\Tasks;
 
 use Shift\Cli\Sdk\Contracts\Task;
-use Shift\Cli\Sdk\Parsers\NikicParser;
 use Shift\Cli\Sdk\Facades\Comment;
+use Shift\Cli\Sdk\Parsers\NikicParser;
 use Shift\Cli\Sdk\Traits\FindsFiles;
 
 class DebugCalls implements Task

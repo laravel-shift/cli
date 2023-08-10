@@ -3,6 +3,7 @@
 namespace Tests\Feature\Tasks;
 
 use PHPUnit\Framework\Attributes\Test;
+use Shift\Cli\Sdk\Facades\Reflector;
 use Shift\Cli\Sdk\Testing\InteractsWithProject;
 use Shift\Cli\Sdk\Testing\TestCase;
 use Shift\Cli\Tasks\ModelTableName;
@@ -15,6 +16,26 @@ class ModelTableNameTest extends TestCase
     use InteractsWithProject;
 
     private ModelTableName $subject;
+
+    private function mockReflectionClass(string $name, string $table, bool $pivot = false)
+    {
+        $mock = \Mockery::mock(\ReflectionClass::class);
+        $mock->expects('isSubclassOf')
+            ->with('Illuminate\\Database\\Eloquent\\Model')
+            ->andReturn(true);
+        $mock->expects('getDefaultProperties')
+            ->andReturn(['table' => $table]);
+        $mock->expects('isSubclassOf')
+            ->with('Illuminate\\Database\\Eloquent\\Relations\\Pivot')
+            ->andReturn($pivot);
+        $mock->expects('getShortName')
+            ->withNoArgs()
+            ->andReturn($name);
+        $mock->expects('getProperty->getDefaultValue')
+            ->andReturn($table);
+
+        return $mock;
+    }
 
     protected function setUp(): void
     {
@@ -44,6 +65,15 @@ class ModelTableNameTest extends TestCase
             'app/Models/User.php' => 'tests/fixtures/table-name/model.php',
             'app/Models/RoleUser.php' => 'tests/fixtures/table-name/pivot.php',
         ]);
+
+        $reflector = \Mockery::mock('Reflector');
+        $reflector->expects('classFromPath')
+            ->with($this->currentSnapshotPath() . '/app/Models/User.php')
+            ->andReturn($this->mockReflectionClass('User', 'users'));
+        $reflector->expects('classFromPath')
+            ->with($this->currentSnapshotPath() . '/app/Models/RoleUser.php')
+            ->andReturn($this->mockReflectionClass('RoleUser', 'role_user', true));
+        Reflector::swap($reflector);
 
         $result = $this->subject->perform();
 

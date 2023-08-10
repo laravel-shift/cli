@@ -21,8 +21,6 @@ class ModelTableName implements Task
                 continue;
             }
 
-            var_dump('here');
-
             $conventional_name = $this->tableNameFromClassName($model->getShortName(), $this->isPivotModel($model));
 
             if ($model->getProperty('table')->getDefaultValue() !== $conventional_name) {
@@ -33,8 +31,8 @@ class ModelTableName implements Task
             $class = $this->parseClass($file->contents());
 
             $start = $class['properties']['table']['comment'] ? $class['properties']['table']['comment']['line']['start'] : $class['properties']['table']['line']['start'];
-            $file->removeBlankLinesAfter($class['properties']['table']['line']['end']);
             $file->removeSegment($start, $class['properties']['table']['line']['end']);
+            $file->removeBlankLinesAround($start);
 
             file_put_contents($path, $file->contents());
         }
