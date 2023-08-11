@@ -29,6 +29,6 @@ jobs:
       - name: Install composer dependencies
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: COMPOSER=composer-dev.json composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Run tests
         run: vendor/bin/phpunit

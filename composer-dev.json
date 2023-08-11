@@ -4,11 +4,23 @@
     "keywords": ["laravel", "php", "code", "refactor", "automation", "cli"],
     "license": "MIT",
     "require": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "symfony/console": "^6.3",
+        "laravel-shift/cli-sdk": "dev-main"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.6",
+        "mockery/mockery": "^1.4.4",
+        "phpunit/phpunit": "^10.0"
     },
     "autoload": {
         "psr-4": {
             "Shift\\Cli\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "config": {
