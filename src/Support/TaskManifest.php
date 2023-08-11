@@ -12,8 +12,8 @@ class TaskManifest
 
     public function __construct(string $vendorPath)
     {
-        $this->manifestPath = $vendorPath . '/shift-tasks.php';
         $this->vendorPath = $vendorPath;
+        $this->manifestPath = $vendorPath . DIRECTORY_SEPARATOR . 'shift-tasks.php';
     }
 
     public function list(): array
@@ -33,8 +33,9 @@ class TaskManifest
     public function build(): void
     {
         $packages = [];
+        $path = $this->vendorPath . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'installed.json';
 
-        if (file_exists($path = $this->vendorPath . '/composer/installed.json')) {
+        if (file_exists($path)) {
             $installed = json_decode(file_get_contents($path), true);
 
             $packages = $installed['packages'] ?? $installed;
