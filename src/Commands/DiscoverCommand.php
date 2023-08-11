@@ -2,24 +2,38 @@
 
 namespace Shift\Cli\Commands;
 
-use Illuminate\Console\Command;
 use Shift\Cli\Support\TaskManifest;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'discover',
+    description: 'Load any additional automated tasks within the project',
+)]
 class DiscoverCommand extends Command
 {
-    protected $signature = 'discover';
+    private TaskManifest $taskManifest;
 
-    protected $description = 'Load any additional automated tasks within the project';
-
-    public function handle(TaskManifest $manifest)
+    public function __construct(TaskManifest $taskManifest)
     {
-        $this->components->info('Discovering tasks');
+        parent::__construct();
 
-        $manifest->build();
+        $this->taskManifest = $taskManifest;
+    }
 
-        collect($manifest->list())
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $output->writeln('Discovering tasks');
+
+        $this->taskManifest->build();
+
+        collect($this->taskManifest->list())
             ->keys()
-            ->each(fn ($task) => $this->components->task($task))
-            ->whenNotEmpty(fn () => $this->newLine());
+            ->each(fn ($task) => $output->writeln($task))
+            ->whenNotEmpty(fn () => $output->writeln(''));
+
+        return 0;
     }
 }
