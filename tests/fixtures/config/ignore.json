@@ -1,7 +1,0 @@
-{
-    "ignore": [
-        "tests/fixtures/",
-        "resources/templates/*.blade.php",
-        "example.php"
-    ]
-}
