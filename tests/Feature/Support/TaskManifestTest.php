@@ -18,7 +18,7 @@ class TaskManifestTest extends TestCase
             'shift-tasks.php' => '<?php return ["task-name" => "fqcn"];',
         ]);
 
-        $taskManifest = new TaskManifest($this->currentSnapshotPath());
+        $taskManifest = new TaskManifest($this->currentSnapshotPath(), []);
 
         $this->assertSame(['task-name' => 'fqcn'], $taskManifest->list());
     }
@@ -28,9 +28,9 @@ class TaskManifestTest extends TestCase
     {
         $this->fakeProject([]);
 
-        $taskManifest = new TaskManifest($this->currentSnapshotPath());
+        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['task-name' => 'Fully\\Qualified\\Class\\Name']);
 
-        $this->assertSame($this->defaultTasks(), $taskManifest->list());
+        $this->assertSame(['task-name' => 'Fully\\Qualified\\Class\\Name'], $taskManifest->list());
         $this->assertFileExists($this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php');
     }
 
@@ -58,34 +58,13 @@ class TaskManifestTest extends TestCase
             ]),
         ]);
 
-        $taskManifest = new TaskManifest($this->currentSnapshotPath());
+        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['task-name' => 'Fully\\Qualified\\Class\\Name']);
 
         $this->assertEqualsCanonicalizing(
-            array_merge(['package1-task' => '\\Package1\\Task', 'package2-task' => '\\Package2\\Task'], $this->defaultTasks()),
+            ['task-name' => 'Fully\\Qualified\\Class\\Name', 'package1-task' => '\\Package1\\Task', 'package2-task' => '\\Package2\\Task'],
             $taskManifest->list()
         );
 
         $this->assertFileExists($this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php');
-    }
-
-    private function defaultTasks()
-    {
-        return [
-            'anonymous-migrations' => \Shift\Cli\Tasks\AnonymousMigrations::class,
-            'check-lint' => \Shift\Cli\Tasks\CheckLint::class,
-            'class-strings' => \Shift\Cli\Tasks\ClassStrings::class,
-            'debug-calls' => \Shift\Cli\Tasks\DebugCalls::class,
-            'declare-strict' => \Shift\Cli\Tasks\DeclareStrictTypes::class,
-            'down-migration' => \Shift\Cli\Tasks\DownMigration::class,
-            'explicit-orderby' => \Shift\Cli\Tasks\ExplicitOrderBy::class,
-            'facade-aliases' => \Shift\Cli\Tasks\FacadeAliases::class,
-            'faker-methods' => \Shift\Cli\Tasks\FakerMethods::class,
-            'laravel-carbon' => \Shift\Cli\Tasks\LaravelCarbon::class,
-            'latest-oldest' => \Shift\Cli\Tasks\LatestOldest::class,
-            'model-table' => \Shift\Cli\Tasks\ModelTableName::class,
-            'order-model' => \Shift\Cli\Tasks\OrderModel::class,
-            'remove-docblocks' => \Shift\Cli\Tasks\RemoveDocBlocks::class,
-            'rules-arrays' => \Shift\Cli\Tasks\RulesArrays::class,
-        ];
     }
 }

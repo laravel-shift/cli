@@ -6,10 +6,18 @@ require __DIR__ . '/vendor/autoload.php';
 use Shift\Cli\Commands\DiscoverCommand;
 use Shift\Cli\Commands\PublishCommand;
 use Shift\Cli\Commands\RunCommand;
+use Shift\Cli\Sdk\Facades\Configuration;
 use Shift\Cli\Support\TaskManifest;
 use Symfony\Component\Console\Application;
 
-$taskManifest = new TaskManifest(getenv('COMPOSER_VENDOR_DIR') ?: getcwd() . '/vendor');
+$defaults = require __DIR__ . '/config/defaults.php';
+
+$taskManifest = new TaskManifest(
+    getenv('COMPOSER_VENDOR_DIR') ?: getcwd() . '/vendor',
+    $defaults['tasks'],
+);
+
+Configuration::setDefaults($defaults['run']);
 
 $application = new Application();
 $application->add(new DiscoverCommand($taskManifest));
