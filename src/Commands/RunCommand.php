@@ -33,12 +33,12 @@ class RunCommand extends Command
     {
         $this->addArgument('task', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The name of the automated task');
         $this->addOption('dirty', mode: InputOption::VALUE_NONE, description: 'Scan only dirty files');
-        $this->addOption('path', mode: InputOption::VALUE_REQUIRED | InputArgument::OPTIONAL, description: 'The paths to scan');
+        $this->addOption('path', mode: InputOption::VALUE_REQUIRED | InputArgument::OPTIONAL | InputOption::VALUE_IS_ARRAY, description: 'The paths to scan');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $tasks = empty($input->getArgument('task')) ? Configuration::get('tasks') : $input->getArgument('task');
+        $tasks = empty($input->getArgument('task')) ? Configuration::get('tasks', []) : $input->getArgument('task');
 
         foreach ($tasks as $task) {
             $result = ($this->createTask($this->taskRegistry($task), $input))->perform();
@@ -61,7 +61,7 @@ class RunCommand extends Command
         $task = new $name;
 
         if (in_array(FindsFiles::class, class_uses_recursive($task))) {
-            if ($input->getOption('path')) {
+            if (! empty($input->getOption('path'))) {
                 $task->setPaths($input->getOption('path'));
             }
 
