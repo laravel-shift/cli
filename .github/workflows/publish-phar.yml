@@ -24,25 +24,21 @@ jobs:
           echo "tag=${GITHUB_REF##*v}" >> "$GITHUB_OUTPUT"
       - name: Checkout the code
         uses: actions/checkout@v3
-#        with:
-#          ref: v${{ steps.tag.outputs.tag }}
+        with:
+          ref: v${{ steps.tag.outputs.tag }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.1
           tools: humbug/box
           coverage: none
-      - name: Install the dependencies
-        run: COMPOSER=composer-dev.json composer install --no-dev --prefer-dist --no-progress
+      - name: Overwrite Composer for build
+        run: mv composer-dev.json composer.json
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --no-progress
       - name: Create the PHAR file.
         run: box compile --no-parallel
-      - name: Upload the PHAR artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: shift-cli.phar
-          path: builds/shift-cli
-
-#      - name: Upload the PHAR to release
-#        run: gh release upload v${{ steps.tag.outputs.tag }} builds/pint.phar
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload the PHAR to release
+        run: gh release upload v${{ steps.tag.outputs.tag }} builds/shift-cli
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
