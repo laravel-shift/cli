@@ -43,7 +43,7 @@ class RunCommand extends Command
         foreach ($tasks as $task) {
             $result = ($this->createTask($this->taskRegistry($task), $input))->perform();
             if ($result !== 0) {
-                $output->error('Failed to run task: ' . $task);
+                $output->writeln('<fg=white;bg=red>Failed to run task:</> ' . $task);
 
                 return $result;
             }
