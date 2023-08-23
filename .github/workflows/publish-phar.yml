@@ -33,7 +33,7 @@ jobs:
           tools: humbug/box
           coverage: none
       - name: Install the dependencies
-        run: COMPOSER=composer-dev.json composer install --prefer-dist --no-progress
+        run: COMPOSER=composer-dev.json composer install --no-dev --prefer-dist --no-progress
       - name: Create the PHAR file.
         run: box compile --no-parallel
       - name: Upload the PHAR artifact

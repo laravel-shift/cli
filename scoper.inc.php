@@ -23,7 +23,6 @@ return [
         },
     ],
     'exclude-files' => [
-        'vendor/illuminate/support/helpers.php',
         'vendor/symfony/polyfill-php80/bootstrap.php',
     ],
     'exclude-namespaces' => [
