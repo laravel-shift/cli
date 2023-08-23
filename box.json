@@ -4,9 +4,6 @@
         "vendor",
         "config"
     ],
-    "files": [
-        "composer.json"
-    ],
     "main": "shift-cli",
     "output": "builds/shift-cli",
     "compression": "GZ",
