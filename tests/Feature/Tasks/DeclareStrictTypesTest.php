@@ -30,6 +30,8 @@ class DeclareStrictTypesTest extends TestCase
             'app/Support/NoOpClass.php' => 'tests/fixtures/strict-types/no-op.php',
             'app/Support/SimpleClass.php' => 'tests/fixtures/strict-types/simple.php',
             'app/Support/ComplexClass.php' => 'tests/fixtures/strict-types/complex.php',
+            'resources/views/template.blade.php' => '@noop',
+            'some/other/file.php' => '<html lang="en"><title>File with <?php echo "PHP"; ?></title></html>',
         ]);
 
         $result = $this->subject->perform();
@@ -37,6 +39,8 @@ class DeclareStrictTypesTest extends TestCase
         $this->assertSame(0, $result);
 
         $this->assertFileNotChanged('app/Support/NoOpClass.php');
+        $this->assertFileNotChanged('resources/views/template.blade.php');
+        $this->assertFileNotChanged('some/other/file.php');
         $this->assertFileChanges('tests/fixtures/strict-types/simple.after.php', 'app/Support/SimpleClass.php');
         $this->assertFileChanges('tests/fixtures/strict-types/complex.after.php', 'app/Support/ComplexClass.php');
     }

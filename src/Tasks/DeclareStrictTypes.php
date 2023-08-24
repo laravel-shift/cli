@@ -24,6 +24,10 @@ class DeclareStrictTypes implements Task
 
             $contents = file_get_contents($file);
 
+            if (! str_starts_with($contents, '<?php')) {
+                continue;
+            }
+
             $found = preg_match('/\s+declare\([^)]+?\);/', $contents, $matches);
             if ($found) {
                 if (str_contains($matches[0], 'strict_types')) {
