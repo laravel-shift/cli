@@ -17,7 +17,7 @@ $taskManifest = new TaskManifest(
     $defaults['tasks'],
 );
 
-Configuration::setDefaults($defaults['run']);
+Configuration::setDefaultTasks($defaults['run']);
 
 $application = new Application();
 $application->add(new DiscoverCommand($taskManifest));

@@ -28,15 +28,8 @@ class PublishCommand extends Command
             return 1;
         }
 
-        file_put_contents('shift-cli.json', json_encode($this->defaultConfig(), JSON_PRETTY_PRINT));
+        file_put_contents('shift-cli.json', json_encode(Configuration::defaults(), JSON_PRETTY_PRINT));
 
         return 0;
-    }
-
-    private function defaultConfig(): array
-    {
-        return array_replace(Configuration::defaults(), [
-            'ignore' => [],
-        ]);
     }
 }
