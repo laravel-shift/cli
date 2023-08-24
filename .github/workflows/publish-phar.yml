@@ -1,8 +1,5 @@
 name: Publish PHAR
 on:
-  push:
-    branches:
-      - build-phar
   release:
     types: [created]
   workflow_dispatch:
@@ -36,7 +33,7 @@ jobs:
         run: mv composer-dev.json composer.json
       - name: Install Composer dependencies
         run: composer install --no-dev --prefer-dist --no-progress
-      - name: Create the PHAR file.
+      - name: Build the PHAR
         run: box compile --no-parallel
       - name: Upload the PHAR to release
         run: gh release upload v${{ steps.tag.outputs.tag }} builds/shift-cli
