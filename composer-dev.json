@@ -23,7 +23,8 @@
             "Tests\\": "tests/"
         },
         "exclude-from-classmap": [
-            "tests/fixtures/"
+            "tests/fixtures",
+            "tests/snapshots"
         ]
     },
     "config": {
