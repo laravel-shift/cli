@@ -7,13 +7,13 @@ This tool is current an _alpha release_. Eventually it will replace the [Shift W
 The Shift CLI is bundled as a PHAR, so it has no dependencies and can be installed without conflicts. To use the Shift CLI for your Laravel project, you may run:
 
 ```sh
-composer require --dev laravel-shift/shift-cli
+composer require --dev laravel-shift/cli
 ```
 
 To easily use for all your Laravel projects, you may install the Shift CLI globally by running:
 
 ```sh
-composer global require laravel-shift/shift-cli
+composer global require laravel-shift/cli
 ```
 
 ## Basic Usage
