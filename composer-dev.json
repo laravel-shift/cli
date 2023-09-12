@@ -30,13 +30,9 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "bamarni/composer-bin-plugin": true
-        }
+        "optimize-autoloader": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "bin": ["builds/shift-cli"]
 }
