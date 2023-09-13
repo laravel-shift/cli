@@ -2,9 +2,11 @@
 
 namespace Shift\Cli\Support;
 
+use Illuminate\Support\Str;
+
 class TaskManifest
 {
-    private array $manifest = [];
+    private array $tasks = [];
 
     private string $manifestPath;
 
@@ -21,16 +23,24 @@ class TaskManifest
 
     public function list(): array
     {
-        if (! empty($this->manifest)) {
-            return $this->manifest;
+        if (! empty($this->tasks)) {
+            return $this->tasks;
         }
 
         if (! is_file($this->manifestPath)) {
             $this->build();
         }
 
-        return $this->manifest = is_file($this->manifestPath) ?
-            require $this->manifestPath : [];
+        $manifest = require $this->manifestPath;
+        if (! $this->isStale($manifest)) {
+            return $this->tasks = $manifest['tasks'];
+        }
+
+        $this->build();
+        $manifest = require $this->manifestPath;
+        $this->tasks = $manifest['tasks'];
+
+        return $this->tasks;
     }
 
     public function build(): void
@@ -53,11 +63,26 @@ class TaskManifest
             ->all());
     }
 
-    protected function write(array $manifest): void
+    private static function currentNamespace(): string
+    {
+        return Str::before(__NAMESPACE__, '\\');
+    }
+
+    private function isStale(array $manifest): bool
+    {
+        return $manifest['namespace'] !== self::currentNamespace();
+    }
+
+    protected function write(array $tasks): void
     {
         if (! is_writable($dirname = dirname($this->manifestPath))) {
             throw new \Exception("The {$dirname} directory must be present and writable.");
         }
+
+        $manifest = [
+            'namespace' => self::currentNamespace(),
+            'tasks' => $tasks,
+        ];
 
         file_put_contents(
             $this->manifestPath, '<?php return ' . var_export($manifest, true) . ';'

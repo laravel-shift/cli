@@ -15,7 +15,7 @@ class TaskManifestTest extends TestCase
     public function list_returns_existing_manifest()
     {
         $this->fakeProject([
-            'shift-tasks.php' => '<?php return ["task-name" => "fqcn"];',
+            'shift-tasks.php' => '<?php return ["namespace" => "Shift", "tasks" => ["task-name" => "fqcn"]];',
         ]);
 
         $taskManifest = new TaskManifest($this->currentSnapshotPath(), []);
@@ -32,6 +32,42 @@ class TaskManifestTest extends TestCase
 
         $this->assertSame(['task-name' => 'Fully\\Qualified\\Class\\Name'], $taskManifest->list());
         $this->assertFileExists($this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php');
+
+        $manifest = require $this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php';
+        $this->assertSame('Shift', $manifest['namespace']);
+        $this->assertArrayHasKey('tasks', $manifest);
+    }
+
+    #[Test]
+    public function list_rebuilds_stale_manifest()
+    {
+        $this->fakeProject([
+            'shift-tasks.php' => '<?php return ["namespace" => "Stale", "tasks" => ["task-name" => "foo"]];',
+            'composer/installed.json' => json_encode([
+                'packages' => [
+                    [
+                        'extra' => [
+                            'shift' => [
+                                'tasks' => ['task1' => '\\Package\\Task1', 'task2' => '\\Package\\Task2'],
+                            ],
+                        ],
+                    ],
+                ],
+            ]),
+        ]);
+
+        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['task-name' => 'Fully\\Qualified\\Class\\Name']);
+
+        $this->assertEqualsCanonicalizing(
+            ['task-name' => 'Fully\\Qualified\\Class\\Name', 'task1' => '\\Package\\Task1', 'task2' => '\\Package\\Task2'],
+            $taskManifest->list()
+        );
+
+        $this->assertFileExists($this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php');
+
+        $manifest = require $this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php';
+        $this->assertSame('Shift', $manifest['namespace']);
+        $this->assertArrayHasKey('tasks', $manifest);
     }
 
     #[Test]
@@ -66,5 +102,9 @@ class TaskManifestTest extends TestCase
         );
 
         $this->assertFileExists($this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php');
+
+        $manifest = require $this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php';
+        $this->assertSame('Shift', $manifest['namespace']);
+        $this->assertArrayHasKey('tasks', $manifest);
     }
 }
