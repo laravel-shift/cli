@@ -5,15 +5,15 @@ declare(strict_types=1);
 return [
     'patchers' => [
         function (string $filePath, string $prefix, string $content): string {
-            if ($filePath === 'src/Tasks/ModelTableName.php') {
+            if (str_starts_with($filePath, 'src/Tasks/')) {
                 $content = str_replace(
-                    $prefix . '\\\\Illuminate\\\\Database\\\\',
+                    $prefix . '\\\\Illuminate\\\\',
                     'Illuminate\\\\Database\\\\',
                     $content
                 );
 
                 $content = str_replace(
-                    $prefix . '\\\\App\\\\Models\\\\',
+                    $prefix . '\\\\App\\\\',
                     'App\\\\Models\\\\',
                     $content
                 );
