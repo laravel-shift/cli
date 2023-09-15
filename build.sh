@@ -9,8 +9,11 @@
 mv composer-dev.json composer.json
 rm -rf vendor composer.lock
 composer update --no-dev
+sed -i '' -e "s/Shift CLI', '.*'/Shift CLI', '$1'/" shift-cli
 box compile --no-parallel
-git add builds/shift-cli
+git add builds/shift-cli shift-cli
 git commit -m "Build PHAR"
 git push origin HEAD
+git tag v"$1"
+git push origin v"$1"
 git checkout .
