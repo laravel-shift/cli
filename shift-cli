@@ -17,7 +17,7 @@ $taskManifest = new TaskManifest(
     $defaults['tasks'],
 );
 
-Configuration::setDefaultTasks($defaults['run']);
+Configuration::setDefaultTasks($defaults['run'], $defaults['options'] ?? []);
 
 $application = new Application('Shift CLI', '0.1.1');
 $application->add(new DiscoverCommand($taskManifest));
