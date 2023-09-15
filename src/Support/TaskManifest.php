@@ -70,7 +70,7 @@ class TaskManifest
 
     private function isStale(array $manifest): bool
     {
-        return $manifest['namespace'] !== self::currentNamespace();
+        return ! isset($manifest['namespace']) || $manifest['namespace'] !== self::currentNamespace();
     }
 
     protected function write(array $tasks): void
