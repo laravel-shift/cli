@@ -56,10 +56,10 @@ class TaskManifest
 
         $this->write(collect($packages)
             ->mapWithKeys(function ($package) {
-                return $package['extra']['shift']['tasks'] ?? [];
+                return collect($package['extra']['shift']['tasks'] ?? [])->mapWithKeys(fn ($task) => [$task::$name => $task]);
             })
             ->filter()
-            ->merge($this->defaultTasks)
+            ->merge(collect($this->defaultTasks)->mapWithKeys(fn ($task) => [$task::$name => $task]))
             ->all());
     }
 

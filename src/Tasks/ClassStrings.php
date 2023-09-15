@@ -10,6 +10,10 @@ class ClassStrings implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'class-strings';
+
+    public static string $description = 'Converts string class references to use `::class` constant';
+
     public function perform(): int
     {
         $namespaces = $this->psr4Namespaces();

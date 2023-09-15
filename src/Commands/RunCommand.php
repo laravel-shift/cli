@@ -9,6 +9,7 @@ use Shift\Cli\Sdk\Traits\FindsFiles;
 use Shift\Cli\Support\TaskManifest;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,12 +33,19 @@ class RunCommand extends Command
     protected function configure(): void
     {
         $this->addArgument('task', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The name of the automated task');
+        $this->addOption('tasks', mode: InputOption::VALUE_NONE, description: 'List the available tasks');
         $this->addOption('dirty', mode: InputOption::VALUE_NONE, description: 'Scan only dirty files');
         $this->addOption('path', mode: InputOption::VALUE_REQUIRED | InputArgument::OPTIONAL | InputOption::VALUE_IS_ARRAY, description: 'The paths to scan');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if ($input->getOption('tasks')) {
+            $this->listTasks($output);
+
+            return 0;
+        }
+
         $tasks = empty($input->getArgument('task')) ? Configuration::get('tasks', []) : $input->getArgument('task');
 
         foreach ($tasks as $task) {
@@ -99,5 +107,18 @@ class RunCommand extends Command
         }
 
         return $tasks[$task];
+    }
+
+    private function listTasks(OutputInterface $output)
+    {
+        $output->writeln('<comment>Available tasks:</comment>');
+
+        $tasks = collect($this->taskManifest->list())
+            ->map(fn ($fqcn) => ['  <info>' . $fqcn::$name . '</info> ', $fqcn::$description])
+            ->all();
+
+        (new Table($output))->setStyle('compact')
+            ->setRows($tasks)
+            ->render();
     }
 }

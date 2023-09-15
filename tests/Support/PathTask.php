@@ -9,6 +9,10 @@ class PathTask implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'path-task';
+
+    public static string $description = 'A test task which expects 3 paths';
+
     public function perform(): int
     {
         if (count($this->findFiles()) !== 3) {

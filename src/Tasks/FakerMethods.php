@@ -10,6 +10,10 @@ class FakerMethods implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'faker-methods';
+
+    public static string $description = 'Converts directly accessing Faker property to method calls';
+
     public function perform(): int
     {
         $map = array_combine(array_map('strtolower', $this->properties()), $this->properties());

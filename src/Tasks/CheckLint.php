@@ -10,6 +10,10 @@ class CheckLint implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'check-lint';
+
+    public static string $description = 'Checks PHP files for syntax errors';
+
     public function perform(): int
     {
         $files = $this->findFiles();

@@ -9,6 +9,10 @@ class DirtyTask implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'dirty-task';
+
+    public static string $description = 'A test task which expects the dirty option';
+
     public function perform(): int
     {
         if (! $this->dirty) {

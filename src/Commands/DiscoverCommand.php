@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
     name: 'discover',
-    description: 'Load any additional automated tasks within the project',
+    description: 'Register any additional automated tasks within the project',
 )]
 class DiscoverCommand extends Command
 {

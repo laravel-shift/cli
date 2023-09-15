@@ -10,6 +10,10 @@ class AnonymousMigrations implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'anonymous-migrations';
+
+    public static string $description = 'Converts migrations to use anonymous classes';
+
     public function perform(): int
     {
         $this->updateMigrations();

@@ -28,9 +28,9 @@ class TaskManifestTest extends TestCase
     {
         $this->fakeProject([]);
 
-        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['task-name' => 'Fully\\Qualified\\Class\\Name']);
+        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['Tests\\Support\\GoodTask']);
 
-        $this->assertSame(['task-name' => 'Fully\\Qualified\\Class\\Name'], $taskManifest->list());
+        $this->assertSame(['good-task' => 'Tests\\Support\\GoodTask'], $taskManifest->list());
         $this->assertFileExists($this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php');
 
         $manifest = require $this->currentSnapshotPath() . DIRECTORY_SEPARATOR . 'shift-tasks.php';
@@ -46,9 +46,19 @@ class TaskManifestTest extends TestCase
             'composer/installed.json' => json_encode([
                 'packages' => [
                     [
+                        'extra' => ['laravel' => true],
+                    ],
+                    [
                         'extra' => [
                             'shift' => [
-                                'tasks' => ['task1' => '\\Package\\Task1', 'task2' => '\\Package\\Task2'],
+                                'tasks' => ['Tests\\Support\\GoodTask'],
+                            ],
+                        ],
+                    ],
+                    [
+                        'extra' => [
+                            'shift' => [
+                                'tasks' => ['Tests\\Support\\GoodTask', 'Tests\\Support\\DirtyTask'],
                             ],
                         ],
                     ],
@@ -56,10 +66,10 @@ class TaskManifestTest extends TestCase
             ]),
         ]);
 
-        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['task-name' => 'Fully\\Qualified\\Class\\Name']);
+        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['Tests\\Support\\CommentTask']);
 
         $this->assertEqualsCanonicalizing(
-            ['task-name' => 'Fully\\Qualified\\Class\\Name', 'task1' => '\\Package\\Task1', 'task2' => '\\Package\\Task2'],
+            ['comment-task' => 'Tests\\Support\\CommentTask', 'good-task' => 'Tests\\Support\\GoodTask', 'dirty-task' => 'Tests\\Support\\DirtyTask'],
             $taskManifest->list()
         );
 
@@ -79,14 +89,14 @@ class TaskManifestTest extends TestCase
                     [
                         'extra' => [
                             'shift' => [
-                                'tasks' => ['package1-task' => '\\Package1\\Task'],
+                                'tasks' => ['Tests\\Support\\CommentTask'],
                             ],
                         ],
                     ],
                     [
                         'extra' => [
                             'shift' => [
-                                'tasks' => ['package2-task' => '\\Package2\\Task'],
+                                'tasks' => ['Tests\\Support\\BadTask'],
                             ],
                         ],
                     ],
@@ -94,10 +104,10 @@ class TaskManifestTest extends TestCase
             ]),
         ]);
 
-        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['task-name' => 'Fully\\Qualified\\Class\\Name']);
+        $taskManifest = new TaskManifest($this->currentSnapshotPath(), ['Tests\\Support\\GoodTask']);
 
         $this->assertEqualsCanonicalizing(
-            ['task-name' => 'Fully\\Qualified\\Class\\Name', 'package1-task' => '\\Package1\\Task', 'package2-task' => '\\Package2\\Task'],
+            ['good-task' => 'Tests\\Support\\GoodTask', 'comment-task' => 'Tests\\Support\\CommentTask', 'bad-task' => 'Tests\\Support\\BadTask'],
             $taskManifest->list()
         );
 

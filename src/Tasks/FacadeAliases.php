@@ -9,6 +9,10 @@ class FacadeAliases implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'facade-aliases';
+
+    public static string $description = 'Converts references to global Facade aliases to their FQCN';
+
     private array $coreFacades = [
         'App',
         'Artisan',

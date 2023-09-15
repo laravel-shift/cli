@@ -11,6 +11,10 @@ class DebugCalls implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'debug-calls';
+
+    public static string $description = 'Removes calls to common debugging functions';
+
     public function perform(): int
     {
         $files = $this->findFiles();

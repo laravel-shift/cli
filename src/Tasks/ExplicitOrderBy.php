@@ -12,6 +12,10 @@ class ExplicitOrderBy implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'explicit-orderby';
+
+    public static string $description = 'Converts `orderBy()` calls to `orderByAsc()`/`orderByDesc()`';
+
     public function perform(): int
     {
         $finder = new QueryOrderByFinder(false, true);

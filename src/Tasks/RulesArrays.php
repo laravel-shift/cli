@@ -10,6 +10,10 @@ class RulesArrays implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'rules-arrays';
+
+    public static string $description = 'Converts validation rules from string to array syntax';
+
     private static $indent = 16;
 
     public function perform(): int

@@ -10,6 +10,10 @@ class DeclareStrictTypes implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'declare-strict';
+
+    public static string $description = 'Adds `strict_types` declaration to PHP files';
+
     public function perform(): int
     {
         $files = $this->findFiles();

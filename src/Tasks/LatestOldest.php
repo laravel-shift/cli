@@ -12,6 +12,10 @@ class LatestOldest implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'latest-oldest';
+
+    public static string $description = 'Converts `orderBy()` calls to `latest()`/`oldest()`';
+
     public function perform(): int
     {
         $finder = new QueryOrderByFinder(false, false);

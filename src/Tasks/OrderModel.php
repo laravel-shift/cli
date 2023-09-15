@@ -11,6 +11,10 @@ class OrderModel implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'order-model';
+
+    public static string $description = 'Sorts code within your model classes by type and visibility';
+
     protected const METHOD_ORDER = [
         'constructor',
         'booting',

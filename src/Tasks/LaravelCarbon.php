@@ -9,6 +9,10 @@ class LaravelCarbon implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'laravel-carbon';
+
+    public static string $description = 'Converts `Carbon\Carbon` imports to `Illuminate\Support\Carbon`';
+
     public function perform(): int
     {
         foreach ($this->findFiles() as $path) {

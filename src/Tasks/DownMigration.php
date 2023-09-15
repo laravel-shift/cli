@@ -10,6 +10,10 @@ class DownMigration implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'down-migration';
+
+    public static string $description = 'Removes the `down` method from migrations';
+
     public function perform(): int
     {
         $this->updateMigrations();

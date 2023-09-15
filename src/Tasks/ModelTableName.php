@@ -13,6 +13,10 @@ class ModelTableName implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'model-table';
+
+    public static string $description = 'Removes `$table` property from models which have a conventional name';
+
     public function perform(): int
     {
         foreach ($this->findFilesContaining('/^class\s+/m') as $path) {

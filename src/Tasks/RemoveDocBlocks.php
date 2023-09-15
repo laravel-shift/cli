@@ -9,6 +9,10 @@ class RemoveDocBlocks implements Task
 {
     use FindsFiles;
 
+    public static string $name = 'remove-docblocks';
+
+    public static string $description = 'Remove all DocBlocks from PHP files';
+
     public function perform(): int
     {
         $files = $this->findFiles();
