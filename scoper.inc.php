@@ -8,13 +8,13 @@ return [
             if (str_starts_with($filePath, 'src/Tasks/')) {
                 $content = str_replace(
                     $prefix . '\\\\Illuminate\\\\',
-                    'Illuminate\\\\Database\\\\',
+                    'Illuminate\\\\',
                     $content
                 );
 
                 $content = str_replace(
                     $prefix . '\\\\App\\\\',
-                    'App\\\\Models\\\\',
+                    'App\\\\',
                     $content
                 );
             }
