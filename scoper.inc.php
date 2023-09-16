@@ -11,10 +11,14 @@ return [
                     'Illuminate\\\\',
                     $content
                 );
-
                 $content = str_replace(
                     $prefix . '\\\\App\\\\',
                     'App\\\\',
+                    $content
+                );
+                $content = str_replace(
+                    $prefix . '\\\\PHPUnit\\\\Framework\\\\',
+                    'PHPUnit\\\\Framework\\\\',
                     $content
                 );
             }
