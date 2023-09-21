@@ -132,7 +132,7 @@ class FacadeAliases implements Task
                 $prefix .= 'Facades\\';
             }
 
-            if (str_contains('use ' . $prefix . $import . ';', $contents)) {
+            if (str_contains($contents, 'use ' . $prefix . $import . ';')) {
                 continue;
             }
 
