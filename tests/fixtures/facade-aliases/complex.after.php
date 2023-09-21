@@ -27,6 +27,12 @@ class ComplexClass
         Another\Arr::wrap('arr');
     }
 
+    public function duplicates()
+    {
+        Arr::wrap('arr');
+        Arr::wrap('arr');
+    }
+
     public function duplicateGlobals()
     {
         App::make('app');
