@@ -69,6 +69,8 @@ class FacadeAliases implements Task
 
     private function addImport(string $import, mixed $contents): string
     {
+        // TODO: refactor to use PhpFile::addImport() once it supports `declare` statements
+
         $count = 0;
         $replacement = 'use ' . $import . ';';
 
