@@ -1,7 +1,13 @@
-# Shift CLI
-A tool by [Shift](https://laravelshift.com/) to run automated tasks for maintaining your Laravel projects. With this tool, you may also create your own automated tasks and easily share them.
+<p style="text-align: right;">
+    <a href="https://github.com/laravel-shift/blueprint/actions"><img src="https://github.com/laravel-shift/cli/workflows/Build/badge.svg" alt="Build Status"></a>
+    <a href="https://packagist.org/packages/laravel-shift/cli"><img src="https://poser.pugx.org/laravel-shift/cli/v/stable.svg" alt="Latest Stable Version"></a>
+    <a href="https://github.com/badges/poser/blob/master/LICENSE"><img src="https://poser.pugx.org/laravel-shift/cli/license.svg" alt="License"></a>
+</p>
 
-The Shift CLI replaces the [Shift Workbench](https://laravelshift.com/workbench) desktop app -- allowing you to run the same tasks conveniently in your local PHP environment. No Electron. No Docker. Similar to the Workbench, the free tasks are available to run immediately. Premium tasks are available with [a license](https://laravelshift.com/cli#licenses).
+# Shift CLI
+A tool by [Shift](https://laravelshift.com/) to run automated tasks for refactoring and modernizing your Laravel projects.
+
+The Shift CLI replaces the [Shift Workbench](https://laravelshift.com/workbench) desktop app - allowing you to run the same tasks conveniently in your local PHP environment. No Electron. No Docker. Similar to the Workbench, the free tasks are available to run immediately. Premium tasks are available with [a license](https://laravelshift.com/cli#licenses).
 
 
 ## Installation
@@ -80,11 +86,11 @@ Taking this farther, you may automate this by setting up your own Composer scrip
 }
 ```
 
-Then run: `composer lint`
+You may optimize this script by passing the `--dirty` option to both the Shift CLI and Pint. Once you have added this script, you may run: `composer lint`
 
-You may optimize this script by passing the `--dirty` option to both the Shift CLI and Pint. Additionally, you may add the `shift-cli` command to a pre-commit hook to ensure the automation is always run before making a commit.
+Additionally, you may add the `shift-cli` command to a pre-commit hook to ensure the automation is always run before making a commit.
 
-Finally, you are encouraged to add the `shift-cli` to your CI workflows as well. For example, running the automation on every Pull Request to ensure all merged code consistently follows Laravel conventions.
+Finally, you are encouraged to add the `shift-cli` to your CI workflows. For example, you may run the `shift-cli` as part of every Pull Request to ensure all merged code consistently follows Laravel conventions.
 
 Examples of setting up Composer scripts and pre-commit hooks may be found in the [Shift CreatorSeries on Laracasts](https://laracasts.com/series/automated-laravel-upgrades/episodes/4).
 
@@ -92,13 +98,14 @@ Examples of setting up Composer scripts and pre-commit hooks may be found in the
 ## Additional Commands
 The Shift CLI comes with two additional commands: `publish` and `discover`.
 
-The `publish` command generates a Shift CLI config file - `shift-cli.json`. The generated configuration file includes all of the defaults. You may customize the configuration file to specify which tasks to run by default, additional paths to ignore, and options for individual tasks.
+The `publish` command generates a Shift CLI configuration file - `shift-cli.json`. The generated configuration file includes all of the defaults. You may customize the configuration file to specify which tasks to run by default, additional paths to ignore, and options for individual tasks.
 
-The `discover` command regenerates the Shift CLI task registry. This is done automatically anytime the Shift CLI is updated. However, you may need to run this command if you have included other packages which provide Shift CLI tasks.
+The `discover` command regenerates the Shift CLI task manifest. This is done automatically anytime the Shift CLI is updated. However, you may need to run this command if you have included other packages which provide Shift CLI tasks.
 
 
 ## Support Policy
 The automated tasks within the Shift CLI prioritize the latest stable version of Laravel (currently Laravel 10). While there will be a grace period when new versions of Laravel are released, you are encouraged to keep your application upgraded (try using [Shift](https://laravelshift.com)).
+
 
 ## Contributing
 Contributions are welcome in the form of opening an issue or submitting a pull request. For issues to be considered, they should follow one of the templates. For PRs to be considered, they should have tests and all checks should pass.
