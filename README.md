@@ -1,20 +1,22 @@
 # Shift CLI
 A tool by [Shift](https://laravelshift.com/) to run automated tasks for maintaining your Laravel projects. With this tool, you may also create your own automated tasks and easily share them.
 
-This tool is current an _alpha release_. Eventually it will replace the [Shift Workbench](https://laravelshift.com/workbench). All of its free tasks are currently available. Premium tasks will be added in the coming weeks.
+The Shift CLI replaces the [Shift Workbench](https://laravelshift.com/workbench) desktop app -- allowing you to run the same tasks conveniently in your local PHP environment. No Electron. No Docker. Similar to the Workbench, the free tasks are available to run immediately. Premium tasks are available with [a license](https://laravelshift.com/cli#licenses).
+
 
 ## Installation
-The Shift CLI is bundled as a PHAR, so it has no dependencies and can be installed without conflicts. To use the Shift CLI for your Laravel project, you may run:
+The Shift CLI is bundled as a PHAR, so it has no dependencies and can be installed without conflicts. To use the Shift CLI in your Laravel project, you may install it locally by running:
 
 ```sh
 composer require --dev laravel-shift/cli
 ```
 
-To easily use for all your Laravel projects, you may install the Shift CLI globally by running:
+To easily use the Shift CLI for all your Laravel projects, you may install it globally by running:
 
 ```sh
 composer global require laravel-shift/cli
 ```
+
 
 ## Basic Usage
 The recommended way to use the Shift CLI is to simply run the `shift-cli` command from the root of your Laravel project. This will run the default set of [automated tasks](#automated-tasks). The default tasks are based on conventions found in the latest version of Laravel and its documented examples.
@@ -25,17 +27,18 @@ To run an individual task, or multiple tasks, you may pass them by name to the `
 shift-cli run anonymous-migrations facade-aliases
 ```
 
-By default, the automation is run against all PHP files within your Laravel project. To limit the automation to a path or file, you may set the `--path` option. For example, to run the `anonymous-migrations` task against only the `database/migrations` directory, you may run:
+By default, the automation is run against all PHP files under your current path. To limit the automation to a path or file, you may set the `--path` option. For example, to run the `anonymous-migrations` task against only the `database/migrations` directory, you may run:
 
 ```sh
 shift-cli run --path=database/migrations anonymous-migrations
 ```
 
-You may also use the `--dirty` option to only run the automation against files which have changed since your last commit. For example, to run the `anonymous-migrations` task against only the modified files, you may run:
+You may also use the `--dirty` option to only run the automation against files which have changed since your last commit. For example, to run the `anonymous-migrations` task against only the uncommitted PHP files, you may run:
 
 ```sh
 shift-cli run --dirty anonymous-migrations
 ```
+
 
 ## Automated Tasks
 - **anonymous-migrations**: (default) Convert class based database migrations into anonymous classes.
@@ -53,6 +56,46 @@ shift-cli run --dirty anonymous-migrations
 - **order-model**: Order model classes by visibility and method type.
 - **remove-docblocks**: Remove PHP DocBlocks from code.
 - **rules-arrays**: (default) Ensure form request rules are defined as arrays, instead of strings.
+
+
+## Advanced Usage
+The Shift CLI is meant to be integrated into your development workflow. Its focus is refactoring your code and ensuring consistency across your projects. As such, it pairs well with a code formatter. Shift recommends using [Laravel Pint](https://laravel.com/docs/pint) as it is a first-party package which applies the Laravel code style by default. It also uses [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) underneath, so you may easily configure it with all the same options. You may, of course, use PHP CS Fixer directly, or another code formatter like [PHP CS Fixer](https://github.com/squizlabs/PHP_CodeSniffer).
+
+For example, to run the Shift CLI and Pint together, you may run:
+
+```sh
+shift-cli && pint
+```
+
+Taking this farther, you may automate this by setting up your own Composer script. For example, to run the Shift CLI and Pint together, you may add the following to your `composer.json` file:
+
+```json
+{
+    "scripts": {
+        "lint": [
+            "shift-cli",
+            "pint"
+        ]
+    }
+}
+```
+
+Then run: `composer lint`
+
+You may optimize this script by passing the `--dirty` option to both the Shift CLI and Pint. Additionally, you may add the `shift-cli` command to a pre-commit hook to ensure the automation is always run before making a commit.
+
+Finally, you are encouraged to add the `shift-cli` to your CI workflows as well. For example, running the automation on every Pull Request to ensure all merged code consistently follows Laravel conventions.
+
+Examples of setting up Composer scripts and pre-commit hooks may be found in the [Shift CreatorSeries on Laracasts](https://laracasts.com/series/automated-laravel-upgrades/episodes/4).
+
+
+## Additional Commands
+The Shift CLI comes with two additional commands: `publish` and `discover`.
+
+The `publish` command generates a Shift CLI config file - `shift-cli.json`. The generated configuration file includes all of the defaults. You may customize the configuration file to specify which tasks to run by default, additional paths to ignore, and options for individual tasks.
+
+The `discover` command regenerates the Shift CLI task registry. This is done automatically anytime the Shift CLI is updated. However, you may need to run this command if you have included other packages which provide Shift CLI tasks.
+
 
 ## Support Policy
 The automated tasks within the Shift CLI prioritize the latest stable version of Laravel (currently Laravel 10). While there will be a grace period when new versions of Laravel are released, you are encouraged to keep your application upgraded (try using [Shift](https://laravelshift.com)).
