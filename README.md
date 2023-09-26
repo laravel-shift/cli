@@ -1,5 +1,5 @@
 <p align="right">
-    <a href="https://github.com/laravel-shift/cli/actions"><img src="https://github.com/laravel-shift/cli/workflows/test/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/laravel-shift/cli/actions"><img src="https://github.com/laravel-shift/cli/workflows/Test/badge.svg" alt="Build Status"></a>
     <a href="https://packagist.org/packages/laravel-shift/cli"><img src="https://poser.pugx.org/laravel-shift/cli/v/stable.svg" alt="Latest Stable Version"></a>
     <a href="https://github.com/badges/poser/blob/master/LICENSE"><img src="https://poser.pugx.org/laravel-shift/cli/license.svg" alt="License"></a>
 </p>
