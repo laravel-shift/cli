@@ -9,7 +9,7 @@ assignees: ''
 
 <!-- PLEASE COMPLETE THIS TEMPLATE -->
 
-### Proposed Automation:
+### Synopsis:
 
 
 ### Before/After Snippets:
