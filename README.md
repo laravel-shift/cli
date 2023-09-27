@@ -47,6 +47,10 @@ shift-cli run --dirty anonymous-migrations
 
 
 ## Automated Tasks
+To see a list of all available tasks, you may run: `shift-cli --tasks`
+
+Below is a list of the free tasks included with this package:
+
 - **anonymous-migrations**: (default) Convert class based database migrations into anonymous classes.
 - **check-lint**: Check PHP files for syntax errors.
 - **class-strings**: (default) Convert strings which contain class references to actual references using `::class`.
