@@ -26,9 +26,9 @@ class DebugCalls implements Task
         $failure = false;
 
         foreach ($files as $file) {
-            $contents = file_get_contents($file);
+            $contents = \file_get_contents($file);
 
-            if (! preg_match('/\b(print_r|var_dump|var_export|dd)\(/', $contents)) {
+            if (! \preg_match('/\b(print_r|var_dump|var_export|dd)\(/', $contents)) {
                 continue;
             }
 
@@ -40,8 +40,8 @@ class DebugCalls implements Task
             $failure = true;
             $this->leaveComment($file, $instances);
 
-            foreach (array_reverse($instances) as $instance) {
-                $contents = substr_replace(
+            foreach (\array_reverse($instances) as $instance) {
+                $contents = \substr_replace(
                     $contents,
                     '',
                     $instance['offset']['start'],
@@ -49,7 +49,7 @@ class DebugCalls implements Task
                 );
             }
 
-            file_put_contents($file, $contents);
+            \file_put_contents($file, $contents);
         }
 
         return $failure ? 1 : 0;
@@ -57,8 +57,8 @@ class DebugCalls implements Task
 
     private function leaveComment(string $path, array $calls): void
     {
-        $instances = array_map(
-            fn ($call) => sprintf('Line %d: contains call to `%s`', $call['line']['start'], $call['function']),
+        $instances = \array_map(
+            fn ($call) => \sprintf('Line %d: contains call to `%s`', $call['line']['start'], $call['function']),
             $calls
         );
 

@@ -37,9 +37,9 @@ class OrderModel implements Task
         $finder = new NikicParser(new ClassDefinition());
 
         foreach ($files as $file) {
-            $lines = file($file);
+            $lines = \file($file);
 
-            $instances = $finder->parse(implode($lines));
+            $instances = $finder->parse(\implode($lines));
             if (empty($instances)) {
                 continue;
             }
@@ -59,11 +59,11 @@ class OrderModel implements Task
                 $definitions .= $this->extractDefinition($method, $lines) . PHP_EOL;
             }
 
-            $contents = implode(array_slice($lines, 0, $this->minLine($instances) - 1));
+            $contents = \implode(\array_slice($lines, 0, $this->minLine($instances) - 1));
             $contents .= $definitions;
-            $contents .= implode(array_slice($lines, $this->maxLine($instances)));
+            $contents .= \implode(\array_slice($lines, $this->maxLine($instances)));
 
-            file_put_contents($file, $contents);
+            \file_put_contents($file, $contents);
         }
 
         return 0;
@@ -71,7 +71,7 @@ class OrderModel implements Task
 
     private function addMethodType(array $methods, array $lines): array
     {
-        return array_map(
+        return \array_map(
             function ($method) use ($lines) {
                 $method['type'] = $this->methodType($method, $this->extractDefinition($method, $lines));
 
@@ -85,7 +85,7 @@ class OrderModel implements Task
     {
         $start = $definition['comment'] ? $definition['comment']['line']['start'] : $definition['line']['start'];
 
-        return implode(array_slice($lines, $start - 1, $definition['line']['end'] - $start + 1));
+        return \implode(\array_slice($lines, $start - 1, $definition['line']['end'] - $start + 1));
     }
 
     private function methodType(array $method, string $block): string
@@ -96,22 +96,22 @@ class OrderModel implements Task
 
         if ($method['visibility'] === 'public'
             && $method['static']
-            && in_array($method['name'], ['booting', 'boot', 'booted'])) {
+            && \in_array($method['name'], ['booting', 'boot', 'booted'])) {
             return $method['name'];
         }
 
         // relationship
         if ($method['visibility'] === 'public'
-            && preg_match('/\s+return\s+\$this->(hasOne|belongsTo|hasMany|belongsToMany|hasManyThrough|morphTo|morphMany|morphToMany|morphedByMany)\(/', $block)) {
+            && \preg_match('/\s+return\s+\$this->(hasOne|belongsTo|hasMany|belongsToMany|hasManyThrough|morphTo|morphMany|morphToMany|morphedByMany)\(/', $block)) {
             return 'relationship';
         }
 
-        if ((str_starts_with($method['name'], 'get') || str_starts_with($method['name'], 'set'))
-            && str_ends_with($method['name'], 'Attribute')) {
+        if ((\str_starts_with($method['name'], 'get') || \str_starts_with($method['name'], 'set'))
+            && \str_ends_with($method['name'], 'Attribute')) {
             return 'attribute';
         }
 
-        if (str_starts_with($method['name'], 'scope')) {
+        if (\str_starts_with($method['name'], 'scope')) {
             return 'scope';
         }
 
@@ -124,7 +124,7 @@ class OrderModel implements Task
 
     private function minLine(array $instances): int
     {
-        return min(
+        return \min(
             $this->minStartLine($instances['constants']),
             $this->minStartLine($instances['properties']),
             $this->minStartLine($instances['methods'])
@@ -133,7 +133,7 @@ class OrderModel implements Task
 
     private function maxLine(array $instances): int
     {
-        return max(
+        return \max(
             $this->maxStartLine($instances['constants']),
             $this->maxStartLine($instances['properties']),
             $this->maxStartLine($instances['methods'])
@@ -146,7 +146,7 @@ class OrderModel implements Task
             return PHP_INT_MAX;
         }
 
-        return min(array_map(
+        return \min(\array_map(
             fn ($definition) => $definition['comment'] ? $definition['comment']['line']['start'] : $definition['line']['start'],
             $definitions
         ));
@@ -158,7 +158,7 @@ class OrderModel implements Task
             return 0;
         }
 
-        return max(array_map(
+        return \max(\array_map(
             fn ($definition) => $definition['line']['end'],
             $definitions
         ));
@@ -166,21 +166,21 @@ class OrderModel implements Task
 
     private function orderByName($items): array
     {
-        uksort($items, fn ($a, $b) => strnatcmp($a, $b));
+        \uksort($items, fn ($a, $b) => \strnatcmp($a, $b));
 
         return $items;
     }
 
     private function orderByType($methods): array
     {
-        usort(
+        \usort(
             $methods,
             function ($a, $b) {
                 if ($a['type'] === $b['type']) {
-                    return strnatcmp($a['name'], $b['name']);
+                    return \strnatcmp($a['name'], $b['name']);
                 }
 
-                return array_search($a['type'], self::METHOD_ORDER) - array_search($b['type'], self::METHOD_ORDER);
+                return \array_search($a['type'], self::METHOD_ORDER) - \array_search($b['type'], self::METHOD_ORDER);
             }
         );
 

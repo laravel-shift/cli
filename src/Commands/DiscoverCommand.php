@@ -29,7 +29,7 @@ class DiscoverCommand extends Command
 
         $this->taskManifest->build();
 
-        collect($this->taskManifest->list())
+        \collect($this->taskManifest->list())
             ->keys()
             ->each(fn ($task) => $output->writeln($task))
             ->whenNotEmpty(fn () => $output->writeln(''));

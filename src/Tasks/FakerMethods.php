@@ -16,19 +16,19 @@ class FakerMethods implements Task
 
     public function perform(): int
     {
-        $map = array_combine(array_map('strtolower', $this->properties()), $this->properties());
-        $pattern = '/(\Wfaker->(?:(?:unique|optional)\(\)->)?)(' . implode('|', $map) . ')(\W)/i';
+        $map = \array_combine(\array_map('strtolower', $this->properties()), $this->properties());
+        $pattern = '/(\Wfaker->(?:(?:unique|optional)\(\)->)?)(' . \implode('|', $map) . ')(\W)/i';
 
         foreach ($this->findFiles() as $file) {
-            $contents = file_get_contents($file);
+            $contents = \file_get_contents($file);
 
-            if (! str_contains($contents, 'faker->')) {
+            if (! \str_contains($contents, 'faker->')) {
                 continue;
             }
 
             $dirty = false;
-            $contents = preg_replace('/faker->(unique|optional)->/i', 'faker->$1()->', $contents, count: $dirty);
-            $contents = preg_replace_callback(
+            $contents = \preg_replace('/faker->(unique|optional)->/i', 'faker->$1()->', $contents, count: $dirty);
+            $contents = \preg_replace_callback(
                 $pattern,
                 function ($matches) use (&$dirty, $map) {
                     if ($matches[3] === '(') {
@@ -37,7 +37,7 @@ class FakerMethods implements Task
 
                     $dirty = true;
 
-                    return $matches[1] . $map[strtolower($matches[2])] . '()' . $matches[3];
+                    return $matches[1] . $map[\strtolower($matches[2])] . '()' . $matches[3];
                 },
                 $contents
             );
@@ -46,7 +46,7 @@ class FakerMethods implements Task
                 continue;
             }
 
-            file_put_contents($file, $contents);
+            \file_put_contents($file, $contents);
         }
 
         $this->remainingModifiers();

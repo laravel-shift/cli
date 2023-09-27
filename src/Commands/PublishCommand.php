@@ -22,13 +22,13 @@ class PublishCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (file_exists('shift-cli.json') && ! $input->getOption('force')) {
+        if (\file_exists('shift-cli.json') && ! $input->getOption('force')) {
             $output->writeln('<comment>A configuration file already exists.</comment> Use the `--force` option to overwrite yours.');
 
             return 1;
         }
 
-        file_put_contents('shift-cli.json', json_encode(Configuration::defaults(), JSON_PRETTY_PRINT));
+        \file_put_contents('shift-cli.json', \json_encode(Configuration::defaults(), JSON_PRETTY_PRINT));
 
         return 0;
     }

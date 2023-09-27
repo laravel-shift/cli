@@ -56,12 +56,12 @@ class FacadeAliases implements Task
     public function perform(): int
     {
         foreach ($this->findFiles() as $file) {
-            $contents = file_get_contents($file);
+            $contents = \file_get_contents($file);
 
             $contents = $this->replaceAliasImports($contents);
             $contents = $this->replaceHelperReferences($contents);
 
-            file_put_contents($file, $contents);
+            \file_put_contents($file, $contents);
         }
 
         return 0;
@@ -74,28 +74,28 @@ class FacadeAliases implements Task
         $count = 0;
         $replacement = 'use ' . $import . ';';
 
-        $contents = preg_replace('/^use\s+/m', $replacement . PHP_EOL . '\0', $contents, 1, $count);
+        $contents = \preg_replace('/^use\s+/m', $replacement . PHP_EOL . '\0', $contents, 1, $count);
         if ($count) {
             return $contents;
         }
 
-        $contents = preg_replace('/^namespace\s+[^;]+;/m', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
+        $contents = \preg_replace('/^namespace\s+[^;]+;/m', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
         if ($count) {
             return $contents;
         }
 
-        $contents = preg_replace('/^declare\([^;]+;/m', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
+        $contents = \preg_replace('/^declare\([^;]+;/m', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
         if ($count) {
             return $contents;
         }
 
-        return preg_replace('/^<\\?php/', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
+        return \preg_replace('/^<\\?php/', '\0' . PHP_EOL . PHP_EOL . $replacement, $contents, count: $count);
     }
 
     private function replaceAliasImports(string $contents): string
     {
-        $contents = preg_replace(
-            '/use (' . implode('|', $this->coreFacades) . ');/',
+        $contents = \preg_replace(
+            '/use (' . \implode('|', $this->coreFacades) . ');/',
             'use Illuminate\\Support\\Facades\\\\$1;',
             $contents
         );
@@ -105,8 +105,8 @@ class FacadeAliases implements Task
 
     private function replaceHelperReferences(string $contents): string
     {
-        $contents = preg_replace(
-            '/use (' . implode('|', $this->helperClasses) . ');/',
+        $contents = \preg_replace(
+            '/use (' . \implode('|', $this->helperClasses) . ');/',
             'use Illuminate\\Support\\\\$1;',
             $contents
         );
@@ -118,8 +118,8 @@ class FacadeAliases implements Task
     {
         $imports = [];
 
-        $contents = preg_replace_callback(
-            '/(\W)\\\\(' . implode('|', $references) . ')::/',
+        $contents = \preg_replace_callback(
+            '/(\W)\\\\(' . \implode('|', $references) . ')::/',
             function ($matches) use (&$imports) {
                 $imports[] = $matches[2];
 
@@ -130,11 +130,11 @@ class FacadeAliases implements Task
 
         foreach ($imports as $import) {
             $prefix = 'Illuminate\\Support\\';
-            if (in_array($import, $this->coreFacades)) {
+            if (\in_array($import, $this->coreFacades)) {
                 $prefix .= 'Facades\\';
             }
 
-            if (str_contains($contents, 'use ' . $prefix . $import . ';')) {
+            if (\str_contains($contents, 'use ' . $prefix . $import . ';')) {
                 continue;
             }
 

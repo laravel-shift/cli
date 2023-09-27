@@ -43,7 +43,7 @@ class TaskManifestTest extends TestCase
     {
         $this->fakeProject([
             'shift-tasks.php' => '<?php return ["namespace" => "Stale", "tasks" => ["task-name" => "foo"]];',
-            'composer/installed.json' => json_encode([
+            'composer/installed.json' => \json_encode([
                 'packages' => [
                     [
                         'extra' => ['laravel' => true],
@@ -84,7 +84,7 @@ class TaskManifestTest extends TestCase
     public function build_returns_merged_tasks_from_packages()
     {
         $this->fakeProject([
-            'composer/installed.json' => json_encode([
+            'composer/installed.json' => \json_encode([
                 'packages' => [
                     [
                         'extra' => [

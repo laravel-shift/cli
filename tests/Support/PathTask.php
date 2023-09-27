@@ -15,7 +15,7 @@ class PathTask implements Task
 
     public function perform(): int
     {
-        if (count($this->findFiles()) !== 3) {
+        if (\count($this->findFiles()) !== 3) {
             throw new \RuntimeException('This task expects 3 paths to be passed');
         }
 

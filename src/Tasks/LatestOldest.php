@@ -39,21 +39,21 @@ class LatestOldest implements Task
 
                 $pattern = '/\b' . $occurrence['method'] . '\((\'|")([^,)>]+?)\1(?:,\s*(\'|")([^)]+?)\3)?\)/i';
 
-                $new_block = preg_replace_callback(
+                $new_block = \preg_replace_callback(
                     $pattern,
                     function ($match) use ($occurrence) {
-                        $method = $occurrence['method'] === 'orderbydesc' || strtoupper($match[4] ?? 'ASC') === 'DESC' ? 'latest' : 'oldest';
+                        $method = $occurrence['method'] === 'orderbydesc' || \strtoupper($match[4] ?? 'ASC') === 'DESC' ? 'latest' : 'oldest';
                         $column = $match[2];
 
-                        return sprintf('%s(%s)', $method, $column !== 'created_at' ? "'$column'" : null);
+                        return \sprintf('%s(%s)', $method, $column !== 'created_at' ? "'$column'" : null);
                     },
                     $block
                 );
 
-                $contents = str_replace($block, $new_block, $contents);
+                $contents = \str_replace($block, $new_block, $contents);
             }
 
-            file_put_contents($path, $contents);
+            \file_put_contents($path, $contents);
         }
 
         return 0;

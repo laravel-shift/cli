@@ -21,7 +21,7 @@ class ModelTableName implements Task
     {
         foreach ($this->findFilesContaining('/^class\s+/m') as $path) {
             $model = $this->modelClass($path);
-            if (is_null($model)) {
+            if (\is_null($model)) {
                 continue;
             }
 
@@ -38,7 +38,7 @@ class ModelTableName implements Task
             $file->removeSegment($start, $class['properties']['table']['line']['end']);
             $file->removeBlankLinesAround($start);
 
-            file_put_contents($path, $file->contents());
+            \file_put_contents($path, $file->contents());
         }
 
         return 0;
@@ -52,16 +52,16 @@ class ModelTableName implements Task
     private function tableNameFromClassName($class, $pivot)
     {
         if ($pivot) {
-            return str_replace('\\', '', Str::snake(Str::singular($class)));
+            return \str_replace('\\', '', Str::snake(Str::singular($class)));
         }
 
-        return str_replace('\\', '', Str::snake(Str::plural($class)));
+        return \str_replace('\\', '', Str::snake(Str::plural($class)));
     }
 
     private function modelClass($file): ?ReflectionClass
     {
         $class = Reflector::classFromPath($file);
-        if (is_null($class)) {
+        if (\is_null($class)) {
             return null;
         }
 

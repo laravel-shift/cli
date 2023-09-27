@@ -9,6 +9,7 @@
 mv composer-dev.json composer.json
 rm -rf vendor composer.lock
 composer update --no-dev
+rm vendor/shift-tasks.php
 sed -i '' -e "s/Shift CLI', '.*'/Shift CLI', '$1'/" shift-cli
 box compile --no-parallel
 git add builds/shift-cli shift-cli

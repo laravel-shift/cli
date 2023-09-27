@@ -25,7 +25,7 @@ class CheckLint implements Task
         foreach ($files as $file) {
             $output = [];
             $exit_code = 0;
-            exec('php -l ' . $file . ' 2>&1', $output, $exit_code);
+            \exec('php -l ' . $file . ' 2>&1', $output, $exit_code);
 
             if ($exit_code !== 0) {
                 [$line, $error] = $this->parseError($output);
@@ -39,7 +39,7 @@ class CheckLint implements Task
 
     private function parseError(array $lines): array
     {
-        preg_match('/PHP (?:Fatal|Parse) error:\s+(?:syntax error, )?(.+?)\s+in\s+.+?\.php\s+on\s+line\s+(\d+)/', $lines[0], $matches);
+        \preg_match('/PHP (?:Fatal|Parse) error:\s+(?:syntax error, )?(.+?)\s+in\s+.+?\.php\s+on\s+line\s+(\d+)/', $lines[0], $matches);
 
         return [$matches[2], $matches[1]];
     }

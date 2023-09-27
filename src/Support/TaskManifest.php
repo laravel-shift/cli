@@ -27,7 +27,7 @@ class TaskManifest
             return $this->tasks;
         }
 
-        if (! is_file($this->manifestPath)) {
+        if (! \is_file($this->manifestPath)) {
             $this->build();
         }
 
@@ -48,18 +48,18 @@ class TaskManifest
         $packages = [];
         $path = $this->vendorPath . DIRECTORY_SEPARATOR . 'composer' . DIRECTORY_SEPARATOR . 'installed.json';
 
-        if (file_exists($path)) {
-            $installed = json_decode(file_get_contents($path), true);
+        if (\file_exists($path)) {
+            $installed = \json_decode(\file_get_contents($path), true);
 
             $packages = $installed['packages'] ?? $installed;
         }
 
-        $this->write(collect($packages)
+        $this->write(\collect($packages)
             ->mapWithKeys(function ($package) {
-                return collect($package['extra']['shift']['tasks'] ?? [])->mapWithKeys(fn ($task) => [$task::$name => $task]);
+                return \collect($package['extra']['shift']['tasks'] ?? [])->mapWithKeys(fn ($task) => [$task::$name => $task]);
             })
             ->filter()
-            ->merge(collect($this->defaultTasks)->mapWithKeys(fn ($task) => [$task::$name => $task]))
+            ->merge(\collect($this->defaultTasks)->mapWithKeys(fn ($task) => [$task::$name => $task]))
             ->all());
     }
 
@@ -75,7 +75,7 @@ class TaskManifest
 
     protected function write(array $tasks): void
     {
-        if (! is_writable($dirname = dirname($this->manifestPath))) {
+        if (! \is_writable($dirname = \dirname($this->manifestPath))) {
             throw new \Exception("The {$dirname} directory must be present and writable.");
         }
 
@@ -84,8 +84,8 @@ class TaskManifest
             'tasks' => $tasks,
         ];
 
-        file_put_contents(
-            $this->manifestPath, '<?php return ' . var_export($manifest, true) . ';'
+        \file_put_contents(
+            $this->manifestPath, '<?php return ' . \var_export($manifest, true) . ';'
         );
     }
 }

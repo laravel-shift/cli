@@ -22,23 +22,23 @@ class DeclareStrictTypes implements Task
         }
 
         foreach ($files as $file) {
-            if (str_ends_with($file, '.blade.php')) {
+            if (\str_ends_with($file, '.blade.php')) {
                 continue;
             }
 
-            $contents = file_get_contents($file);
+            $contents = \file_get_contents($file);
 
-            if (! str_starts_with($contents, '<?php')) {
+            if (! \str_starts_with($contents, '<?php')) {
                 continue;
             }
 
-            $found = preg_match('/\s+declare\([^)]+?\);/', $contents, $matches);
+            $found = \preg_match('/\s+declare\([^)]+?\);/', $contents, $matches);
             if ($found) {
-                if (str_contains($matches[0], 'strict_types')) {
+                if (\str_contains($matches[0], 'strict_types')) {
                     continue;
                 }
 
-                $contents = str_replace(
+                $contents = \str_replace(
                     $matches[0],
                     Str::beforeLast($matches[0], ')') . ',strict_types=1);',
                     $contents
@@ -51,7 +51,7 @@ class DeclareStrictTypes implements Task
                 );
             }
 
-            file_put_contents($file, $contents);
+            \file_put_contents($file, $contents);
         }
 
         return 0;

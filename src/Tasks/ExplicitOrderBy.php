@@ -36,20 +36,20 @@ class ExplicitOrderBy implements Task
 
                 $pattern = '/\borderBy\(([^,>]+?),\s*(\'|")(asc|desc)\2\s*\)/i';
 
-                $new_block = preg_replace_callback(
+                $new_block = \preg_replace_callback(
                     $pattern,
                     function ($match) {
-                        $method = strtoupper($match[3]) === 'DESC' ? 'orderByDesc' : 'orderBy';
+                        $method = \strtoupper($match[3]) === 'DESC' ? 'orderByDesc' : 'orderBy';
 
-                        return sprintf('%s(%s)', $method, trim($match[1]));
+                        return \sprintf('%s(%s)', $method, \trim($match[1]));
                     },
                     $block
                 );
 
-                $contents = str_replace($block, $new_block, $contents);
+                $contents = \str_replace($block, $new_block, $contents);
             }
 
-            file_put_contents($path, $contents);
+            \file_put_contents($path, $contents);
         }
 
         return 0;

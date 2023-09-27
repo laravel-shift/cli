@@ -34,16 +34,16 @@ class DownMigration implements Task
     private function updateMigrations(): void
     {
         foreach ($this->findFilesContaining('/\s+extends\s+Migration\s/') as $path) {
-            if (str_starts_with($path, 'stubs/')) {
+            if (\str_starts_with($path, 'stubs/')) {
                 continue;
             }
 
-            $contents = $this->removeDownMethod(file_get_contents($path));
-            if (is_null($contents)) {
+            $contents = $this->removeDownMethod(\file_get_contents($path));
+            if (\is_null($contents)) {
                 continue;
             }
 
-            file_put_contents($path, $contents);
+            \file_put_contents($path, $contents);
         }
     }
 
@@ -56,29 +56,29 @@ class DownMigration implements Task
         ];
 
         foreach ($stubs as $stub) {
-            if (! file_exists('stubs/' . $stub)) {
+            if (! \file_exists('stubs/' . $stub)) {
                 continue;
             }
 
-            $contents = file_get_contents('stubs/' . $stub);
-            $contents = str_replace(
+            $contents = \file_get_contents('stubs/' . $stub);
+            $contents = \str_replace(
                 ['DummyClass', '{{ class }}', '{{class}}'],
                 'ShiftTemporaryClassNamePlaceholder',
                 $contents
             );
-            $contents = str_replace(
+            $contents = \str_replace(
                 ['DummyTable', '{{ table }}', '{{table}}'],
                 'ShiftTemporaryTableNamePlaceholder',
                 $contents
             );
             $contents = $this->removeDownMethod($contents);
-            if (is_null($contents)) {
+            if (\is_null($contents)) {
                 continue;
             }
 
-            $contents = str_replace('ShiftTemporaryClassNamePlaceholder', '{{ class }}', $contents);
-            $contents = str_replace('ShiftTemporaryTableNamePlaceholder', '{{ table }}', $contents);
-            file_put_contents('stubs/' . $stub, $contents);
+            $contents = \str_replace('ShiftTemporaryClassNamePlaceholder', '{{ class }}', $contents);
+            $contents = \str_replace('ShiftTemporaryTableNamePlaceholder', '{{ table }}', $contents);
+            \file_put_contents('stubs/' . $stub, $contents);
         }
     }
 

@@ -68,7 +68,7 @@ class RunCommand extends Command
     {
         $task = new $name;
 
-        if (in_array(FindsFiles::class, class_uses_recursive($task))) {
+        if (\in_array(FindsFiles::class, \class_uses_recursive($task))) {
             if (! empty($input->getOption('path'))) {
                 $task->setPaths($input->getOption('path'));
             }
@@ -113,7 +113,7 @@ class RunCommand extends Command
     {
         $output->writeln('<comment>Available tasks:</comment>');
 
-        $tasks = collect($this->taskManifest->list())
+        $tasks = \collect($this->taskManifest->list())
             ->map(fn ($fqcn) => ['  <info>' . $fqcn::$name . '</info> ', $fqcn::$description])
             ->all();
 
