@@ -6,8 +6,11 @@
 .gitattributes export-ignore
 .gitignore export-ignore
 box.json export-ignore
+build.sh export-ignore
+composer-dev.json export-ignore
 phpunit.xml.dist export-ignore
 pint.json export-ignore
-
+scoper.inc.php export-ignore
+/shift-cli export-ignore
 
 tests/fixtures/down-migration/line-endings*.php eol=crlf
