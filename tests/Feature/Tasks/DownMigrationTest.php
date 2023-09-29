@@ -43,6 +43,7 @@ class DownMigrationTest extends TestCase
         $this->fakeProject([
             'database/migrations/basic_migration.php' => 'tests/fixtures/down-migration/simple.php',
             'database/migrations/complex_migration.php' => 'tests/fixtures/down-migration/complex.php',
+            'database/migrations/windows_migration.php' => 'tests/fixtures/down-migration/line-endings.php',
         ]);
 
         $result = $this->subject->perform();
@@ -51,5 +52,6 @@ class DownMigrationTest extends TestCase
 
         $this->assertFileChanges('tests/fixtures/down-migration/simple.after.php', 'database/migrations/basic_migration.php');
         $this->assertFileChanges('tests/fixtures/down-migration/complex.after.php', 'database/migrations/complex_migration.php');
+        $this->assertFileChanges('tests/fixtures/down-migration/line-endings.after.php', 'database/migrations/windows_migration.php');
     }
 }

@@ -8,3 +8,6 @@
 box.json export-ignore
 phpunit.xml.dist export-ignore
 pint.json export-ignore
+
+
+tests/fixtures/down-migration/line-endings*.php eol=crlf
