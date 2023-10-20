@@ -2,8 +2,8 @@
 
 namespace Shift\Cli\Tasks;
 
-use Illuminate\Support\Str;
 use Shift\Cli\Sdk\Contracts\Task;
+use Shift\Cli\Sdk\Models\File;
 use Shift\Cli\Sdk\Traits\FindsFiles;
 
 class AnonymousMigrations implements Task
@@ -20,6 +20,15 @@ class AnonymousMigrations implements Task
         $this->updateStubs();
 
         return 0;
+    }
+
+    private function parseClass(string $contents)
+    {
+        static $finder;
+
+        $finder ??= new \Shift\Cli\Sdk\Parsers\NikicParser(new \Shift\Cli\Sdk\Parsers\Finders\ClassDefinition());
+
+        return $finder->parse($contents);
     }
 
     private function updateMigrations(): void
@@ -77,14 +86,22 @@ class AnonymousMigrations implements Task
 
     private function convertClassDefinition($contents): ?string
     {
+        $file = File::fromString($contents);
+        $class = $this->parseClass($file->contents());
+
         $found = \preg_match('/^class\s+(\S+)\s+extends\s+Migration(\s+)/m', $contents, $matches);
         if (! $found) {
             return null;
         }
+        $contents = \substr_replace($contents,
+            ';',
+            $class['offset']['end'] + 1,
+            0
+        );
 
         $contents = \str_replace(\rtrim($matches[0]), 'return new class extends Migration', $contents);
         $contents = \preg_replace('/\b' . \preg_quote($matches[1], '/') . '::/', 'self::', $contents);
 
-        return Str::replaceLast('}', '};', $contents);
+        return $contents;
     }
 }

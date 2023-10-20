@@ -54,4 +54,18 @@ class AnonymousMigrationsTest extends TestCase
         $this->assertFileChanges('tests/fixtures/anonymous-migrations/simple.after.php', 'other/migrations/2014_10_12_000000_create_users_table.php');
         $this->assertFileChanges('tests/fixtures/anonymous-migrations/stub.after.php', 'stubs/migration.stub');
     }
+
+    #[Test]
+    public function it_converts_with_comments_beyond_the_class()
+    {
+        $this->fakeProject([
+            'database/migrations/2015_10_12_000000_create_users_table.php' => 'tests/fixtures/anonymous-migrations/post-class-comments.php',
+        ]);
+
+        $result = $this->subject->perform();
+
+        $this->assertSame(0, $result);
+
+        $this->assertFileChanges('tests/fixtures/anonymous-migrations/post-class-comments.after.php', 'database/migrations/2015_10_12_000000_create_users_table.php');
+    }
 }
