@@ -2,7 +2,6 @@
 
 namespace Shift\Cli\Tasks;
 
-use Illuminate\Support\Str;
 use Shift\Cli\Sdk\Contracts\Task;
 use Shift\Cli\Sdk\Models\File;
 use Shift\Cli\Sdk\Traits\FindsFiles;
@@ -94,9 +93,9 @@ class AnonymousMigrations implements Task
         if (! $found) {
             return null;
         }
-        $contents = \substr_replace( $contents,
+        $contents = \substr_replace($contents,
             ';',
-            $class['offset']['end'] +1 ,
+            $class['offset']['end'] + 1,
             0
         );
 
