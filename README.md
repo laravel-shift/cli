@@ -69,7 +69,7 @@ Below is a list of the free tasks included with this package:
 
 
 ## Advanced Usage
-The Shift CLI is meant to be integrated into your development workflow. Its focus is refactoring your code and ensuring consistency across your projects. As such, it pairs well with a code formatter. Shift recommends using [Laravel Pint](https://laravel.com/docs/pint) as it is a first-party package which applies the Laravel code style by default. It also uses [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) underneath, so you may easily configure it with all the same options. You may, of course, use PHP CS Fixer directly, or another code formatter like [PHP CS Fixer](https://github.com/squizlabs/PHP_CodeSniffer).
+The Shift CLI is meant to be integrated into your development workflow. Its focus is refactoring your code and ensuring consistency across your projects. As such, it pairs well with a code formatter. Shift recommends using [Laravel Pint](https://laravel.com/docs/pint) as it is a first-party package which applies the Laravel code style by default. It also uses [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) underneath, so you may easily configure it with all the same options. You may, of course, use PHP CS Fixer directly, or another code formatter like [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
 For example, to run the Shift CLI and Pint together, you may run:
 
