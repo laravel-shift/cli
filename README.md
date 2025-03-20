@@ -4,10 +4,10 @@
     <a href="https://github.com/badges/poser/blob/master/LICENSE"><img src="https://poser.pugx.org/laravel-shift/cli/license.svg" alt="License"></a>
 </p>
 
+_This project has been archived and is no longer actively developed. All of its tasks are freely available to run using the [Shift Workbench](https://laravelshift.com/workbench)._
+
 # Shift CLI
 A tool by [Shift](https://laravelshift.com/) to run automated tasks for refactoring and modernizing your Laravel projects.
-
-The Shift CLI replaces the [Shift Workbench](https://laravelshift.com/workbench) desktop app - allowing you to run the same tasks conveniently in your local PHP environment. No Electron. No Docker. Similar to the Workbench, the free tasks are available to run immediately. Premium tasks are available with [a license](https://laravelshift.com/cli#licenses).
 
 
 ## Installation
